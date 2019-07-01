@@ -81,8 +81,10 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 	Route::get('/laporan/suratmasuk/', 'admin\LaporanController@masukPdf');
 	Route::get('/laporan/suratkeluar/', 'admin\LaporanController@keluarPdf');
 
-	//manajemen kepala
+	//manajemen struktur organisasi
 	Route::get('/strukturorganisasi/', 'admin\StrukturorganisasiController@list')->name('admin.struktur');
+	Route::get('/strukturorganisasi/edit/{id_detail_struktur}', 'admin\StrukturorganisasiController@edit')->name('admin.editstruktur');
+	Route::post('/strukturorganisasi/edit/post/{id_detail_struktur}','admin\StrukturorganisasiController@updateketua')->name('admin.editketua');
 
 	// disposisi
 	Route::get('/suratmasuk/disposisi/{id}', 'admin\DisposisiController@index')->name('admin.disposisi');

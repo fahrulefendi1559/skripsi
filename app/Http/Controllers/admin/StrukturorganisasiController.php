@@ -10,14 +10,86 @@ use DB;
 
 class StrukturorganisasiController extends Controller
 {
+   // query untuk menampilkan data dari database
    public function list(){
 
-      $data_organisasi= Detailstruktur::all();
+      $dataketua= DB::table('detail_struktur')
+         ->join('struktur_organisasi', 'detail_struktur.id_struktur_organisasi', '=', 'struktur_organisasi.id_struktur')
+         ->select('detail_struktur.*', 'struktur_organisasi.nama_struktur')
+         ->where('id_detail_struktur','1')
+         ->get(); 
+      
+      $datasekretaris= DB::table('detail_struktur')
+         ->join('struktur_organisasi', 'detail_struktur.id_struktur_organisasi', '=', 'struktur_organisasi.id_struktur')
+         ->select('detail_struktur.*', 'struktur_organisasi.nama_struktur')
+         ->where('id_detail_struktur','2')
+         ->get();
+         
+      $datakrt= DB::table('detail_struktur')
+         ->join('struktur_organisasi', 'detail_struktur.id_struktur_organisasi', '=', 'struktur_organisasi.id_struktur')
+         ->select('detail_struktur.*', 'struktur_organisasi.nama_struktur')
+         ->where('id_detail_struktur','3')
+         ->get(); 
+      
+      $datapenpel= DB::table('detail_struktur')
+         ->join('struktur_organisasi', 'detail_struktur.id_struktur_organisasi', '=', 'struktur_organisasi.id_struktur')
+         ->select('detail_struktur.*', 'struktur_organisasi.nama_struktur')
+         ->where('id_detail_struktur','4')
+         ->get();
+
+      $dataop= DB::table('detail_struktur')
+         ->join('struktur_organisasi', 'detail_struktur.id_struktur_organisasi', '=', 'struktur_organisasi.id_struktur')
+         ->select('detail_struktur.*', 'struktur_organisasi.nama_struktur')
+         ->where('id_detail_struktur','5')
+         ->get(); 
+      
+      $datapengker= DB::table('detail_struktur')
+         ->join('struktur_organisasi', 'detail_struktur.id_struktur_organisasi', '=', 'struktur_organisasi.id_struktur')
+         ->select('detail_struktur.*', 'struktur_organisasi.nama_struktur')
+         ->where('id_detail_struktur','6')
+         ->get();
+      
+      $datati= DB::table('detail_struktur')
+         ->join('struktur_organisasi', 'detail_struktur.id_struktur_organisasi', '=', 'struktur_organisasi.id_struktur')
+         ->select('detail_struktur.*', 'struktur_organisasi.nama_struktur')
+         ->where('id_detail_struktur','7')
+         ->get(); 
+      
+      $dataeval= DB::table('detail_struktur')
+         ->join('struktur_organisasi', 'detail_struktur.id_struktur_organisasi', '=', 'struktur_organisasi.id_struktur')
+         ->select('detail_struktur.*', 'struktur_organisasi.nama_struktur')
+         ->where('id_detail_struktur','8')
+         ->get();      
+      
       $suratperiode    = Strukturorganisasi::all();
 
      return view('admin.strukturorganisasi')->with([
-          'data_organisasi' => $data_organisasi,
-          'suratperiode'     => $suratperiode,
+          'dataketua'         => $dataketua,
+          'datasekretaris'    => $datasekretaris,
+          'suratperiode'      => $suratperiode,
+          'datakrt'           => $datakrt,
+          'datapenpel'        => $datapenpel,
+          'dataop'            => $dataop,
+          'datapengker'       => $datapengker,
+          'datati'            => $datati,
+          'dataeval'          => $dataeval
+
       ]);
+   }
+
+   // mengalihkan tampilan ke tampilan edit
+   public function edit($id_detail_struktur){
+      $struktur= Detailstruktur:: where('id_detail_struktur',$id_detail_struktur)->first();
+      return view('admin.editstruktur', compact('struktur','id_detail_struktur'));
+   }
+
+   public function updateketua(Request $request,$id_detail_struktur){
+      $editketua = Detailstruktur::where('id_detail_struktur', $id_detail_struktur)->first();
+      $editketua->nama = $request->nama;
+      $editketua->nip  = $request->nip;
+      $editketua->save();
+
+      return redirect()->route('admin.struktur')->with('update', 'Data Berhasil Diudate'
+            );
    }
 }
