@@ -39,7 +39,7 @@ class UserOperator
               return redirect()->guest('login');
           }
       }
-      else if($this->auth->user()->id_role != '888' && $this->auth->user()->id_role != '999'){
+      else if($this->auth->user()->roles_id != '888'){
         return redirect()->to('/')->withError('Permission Denied');
       }
 

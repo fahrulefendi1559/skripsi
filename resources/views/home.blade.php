@@ -5,7 +5,7 @@
     ?>
 <?php elseif (Auth::user()->roles_id == 888): ?>
     <?php
-      header("Location: admin/home");
+      header("Location: operator/home");
       exit;
     ?>
 <?php elseif (Auth::user()->roles_id == 1): ?>

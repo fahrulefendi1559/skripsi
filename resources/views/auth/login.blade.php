@@ -38,12 +38,12 @@
                     </span>
                     {{ csrf_field() }}
                     <div class="wrap-input100 validate-input m-b-23" data-validate = "Username is reauired">
-                        <span class="label-input100">Email</span>
-                        <input id="email" type="email" class="input100" name="email" value="{{ old('email') }}" required autofocus>
+                        <span class="label-input100">Username</span>
+                        <input  type="text" class="input100" name="username" required>
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('username'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('username') }}</strong>
                                     </span>
                                 @endif
                         <span class="focus-input100" data-symbol="&#xf206;"></span>
