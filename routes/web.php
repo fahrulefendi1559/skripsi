@@ -157,7 +157,11 @@ Route::group(['middleware' => 'operator', 'prefix' => 'operator'], function () {
 Route::group(['middleware' => 'ketua', 'prefix' => 'ketua'], function () {
 	Route::get('/home',				'ketua\HomeController@indexHome')->name('ketua.home');
 	Route::get('/suratmasuk/disposisi/{id}', 'ketua\HomeController@dispo')->name('ketua.disposisi');
-	Route::post('/suratmasuk/disposisi/post/', 'ketua\HomeController@send')->name('ketua.send');
+	Route::post('/disposisi/post/', 'ketua\HomeController@send')->name('ketua.send');
+
+	Route::get('/disposisi/viewdisposisi/', 'ketua\DisposisiController@viewdisposisi')->name('ketua.viewdisposisi');
+	
+	
 	// laporan
 	Route::get('/laporan', 'ketua\LaporanController@index')->name('ketua.laporan');
 	Route::get('/laporan/suratmasuk/', 'ketua\LaporanController@masukPdf');

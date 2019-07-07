@@ -10,7 +10,7 @@ class Disposisi extends Model
 
     protected $primaryKey = 'id';
 
-    protected $fillable= ['id_suratmasuk','user_id','diteruskan','isi_disposisi','batas_waktu','catatan'];
+    protected $fillable= ['id_suratmasuk','id_sifat','id_role','tgldispo','catatan'];
 
     public function surat ()
     {

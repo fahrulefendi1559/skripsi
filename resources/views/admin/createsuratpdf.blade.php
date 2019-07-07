@@ -199,6 +199,7 @@
             <img class="logodisp" alt="image" height="77" width="77" src="{{ asset('asset/img/Logo_UnivLampung.png') }}"/>
             <h6 class="up" id="nama2">KEMENTERIAN RISET, TEKNOLOGI, DAN PENDIDIKAN TINGGI</h6>
             <h5 class="up" id="nama">UNIVERSITAS LAMPUNG</h5>
+            <!-- <h5 class="up" id="nama">BADAN PELAKSANA KULIAH KERJA NYATA (BP-KKN)</h5> -->
             <br/>
             <span id="alamat">Jl. Prof. Dr. Sumantri Brojonegoro No.1 Genung Meneng, Bandar Lampung 35145</span><br/>
             <span id="alamat">Telepon (0721) 702767 <strong>kkn.unila.ac.id</strong> e-mail: kkn@kpa.unila.ac.id</span>

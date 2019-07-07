@@ -10,6 +10,7 @@ use App\suratmasuk;
 use App\Suratkeluar;
 use App\Sifat;
 use App\Disposisi;
+use App\Role;
 use DB;
 use Auth;
 use Illuminate\Support\Facades\Input;
@@ -48,9 +49,7 @@ class HomeController extends Controller
         $prihal=DB::table('surat_masuk')->value('prihal');
 
  
-
-
-        $datasuratmasuk = suratmasuk::orderBy('id','DESC')->paginate(10);
+        $datasuratmasuk = suratmasuk::where('status', "1")->get();
 
     	return view('ketua.home')->with([
 
@@ -69,29 +68,25 @@ class HomeController extends Controller
     public function dispo($id){
         $sifatsurat = Sifat::all();
         $masuk      = suratmasuk:: where('id',$id)->first();
-        
-        
-        return view('ketua.disposisi', compact('sifatsurat','id','masuk'));
+        $roles      = Role::all();  
+        return view('ketua.disposisi', compact('sifatsurat', 'id','masuk','roles'));
     }
 
-    public function send(Request $request,$id){
-        $this->validate($request, [
-            'id_suratmasuk'   => 'required',
-            'id_sifat'        => 'required',
-            'diteruskan'      => 'required',
-            'bataswaktu'      => 'required',
-            'catatan'         => 'required'
+    public function send(Request $request){
+        
+        DB::table('surat_masuk')->where('id', $request->input('id_suratmasuk'))->update([
+            'status'        => '0'
         ]);
 
-        DB::table('disposisi')->insert([
-              'id_suratmasuk'=> $request->input('id_suratmasuk'),
-              'id_sifat'     => $request->input('id_sifat'),
-              'diteruskan'   => $request->input('diteruskan'),
-              'bataswaktu'   => $request->input('bataswaktu'),
-              'catatan'      => $request->input('catatan')
+        $a  = DB::table('disposisi')->insert([
+            'id_suratmasuk'=> $request->input('id_suratmasuk'),
+            'id_sifat'     => $request->input('id_sifat'),
+            'id_role'      => $request->input('id_role'),
+            'tgldispo'     => $request->input('tgldispo'),
+            'catatan'      => $request->input('catatan')
           ]);
 
-        return redirect('ketua/home')->with('dissuk','Surat Berhasil Didisposisikan');
+        return redirect('ketua/home')->with('sukses','Surat Berhasil Didisposisikan');
     }
     
 }

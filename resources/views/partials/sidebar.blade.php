@@ -73,6 +73,10 @@
             </li>
 
             <li>
+                <a href="{{route('ketua.viewdisposisi')}}"><i class="fa fa-send"></i> <span class="nav-label">Disposisi</span></a>
+            </li>
+
+            <li>
                 <a href="{{ route('ketua.laporan') }}"><i class="fa fa-book"></i> <span class="nav-label">Laporan</span></a>
             </li>
             @endif

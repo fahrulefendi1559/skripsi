@@ -130,7 +130,7 @@
                                                         <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                                             {{csrf_field()}}
                                                             
-                                                            <a href="{{ route('admin.keluarfilepdf', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " ><i class="fa fa-file-pdf-o"></i></a> |
+                                                            <a href="{{ route('admin.keluarfilepdf', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a> |
 
                                                             @if($keluar->status == "1")
                                                             <a href="{{ route('admin.viewpdfsuratseluar', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " ><i class="fa fa-book"></i></a>
