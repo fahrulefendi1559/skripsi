@@ -70,30 +70,25 @@
 			                    </tr>
 			                    </thead>
 		                    <tbody>
-		                    
+		                    @foreach($disposisi as $dispo)
 		                    <tr >
-		                        <td><center></center></td>
-		                        <td><center></center></td>
-		                        <td><center></center></td>
-		                        <td><center></center></td>
-		                        <td><center></center></td>
-		                        <td><center></center></td>
-                                <td><center></center></td>
+		                        <td><center>{{$dispo->nomorsurat}}</center></td>
+		                        <td><center>{{$dispo->pengirim}}</center></td>
+		                        <td><center>{{$dispo->namarole}}</center></td>
+		                        <td><center>{{$dispo->prihal}}</center></td>
+		                        <td><center>{{$dispo->sifat}}</center></td>
+		                        <td><center>{{$dispo->tgldispo}}</center></td>
+                                <td><center>{{$dispo->catatan}}</center></td>
                                 <td><center>
                                     
 		                        	<form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                         {{csrf_field()}}
 
-                                        <a href="" class="btn btn-simple btn-info btn-xs " ><i class="fa fa-file-pdf-o"></i></a>
-
-                                        <a href="" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
-
-                                        <a href="" class="btn btn-simple btn-danger btn-xs delete" ><i class="fa fa-trash"></i></a>
-
+                                        <a href="{{url ('ketua/disposisi/edit/'. $dispo->id)}}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
                                     </form>
                                 </center></td>
 		                    </tr>
-		                
+                            @endforeach
 							</tbody>
 		                    </table>
                         </div>							

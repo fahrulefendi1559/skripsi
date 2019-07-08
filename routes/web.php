@@ -160,7 +160,7 @@ Route::group(['middleware' => 'ketua', 'prefix' => 'ketua'], function () {
 	Route::post('/disposisi/post/', 'ketua\HomeController@send')->name('ketua.send');
 
 	Route::get('/disposisi/viewdisposisi/', 'ketua\DisposisiController@viewdisposisi')->name('ketua.viewdisposisi');
-	
+	Route::get('/disposisi/edit/{id}','ketua\DisposisiController@editdisposisi');
 	
 	// laporan
 	Route::get('/laporan', 'ketua\LaporanController@index')->name('ketua.laporan');
@@ -168,33 +168,3 @@ Route::group(['middleware' => 'ketua', 'prefix' => 'ketua'], function () {
 	Route::get('/laporan/suratkeluar', 'ketua\LaporanController@keluarPdf');
 
 });
-
-/**
-// route untuk login
-Route::group(['middleware'=>'auth'], function (){
-	Route::get('/home', function(){
-// dd(Auth::User());
-if(Auth::User()->roles_id == 999){
-	return view('admin.home');
-}
-
-elseif (Auth::User()->roles_id==888) {
-	return view('admin.home');
-}
-else if(Auth::User()->roles_id == 1){
-	return view('ketua.home');
-}
-		return view('home');
-	});
-});
-
-
-//route admin
-Route::group(['middleware'=>'admin','prefix' => 'admin'], function (){
-	Route::get('/home', function(){
-		return view('admin.home');
-	});
-});
-
-//Route::get('/home', 'HomeController@index')->name('home');
-*/
