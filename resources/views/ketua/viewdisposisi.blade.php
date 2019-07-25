@@ -30,15 +30,10 @@
 <!-- data tables -->
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
-        @if(session('delete'))
-            <div class="alert alert-info col-lg-12">
-                {{session('delete')}}
-            </div>
-        @endif
 
         @if(session('update'))
             <div class="alert alert-info col-lg-12">
-                {{session('update')}}
+               <strong>Penting !</strong> {{session('update')}}
             </div>
         @endif
 

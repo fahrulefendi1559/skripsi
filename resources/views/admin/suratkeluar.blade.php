@@ -59,6 +59,7 @@
                 <strong>Penting ! </strong> {{session('error')}}
             </div>
         @endif
+
         <!-- akhir dari alert -->
 
         <!-- AWAL DARI UKURAN KANVAS -->
@@ -138,7 +139,7 @@
                 
                                                             <a href="{{url('admin/suratkeluar/edit/'. $keluar->id) }}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
-                                                            <a href="{{ url('admin/suratkeluar/delete/'. $keluar->id) }}" class="btn btn-simple btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
+                                                            <a href="{{ url('admin/suratkeluar/delete/'. $keluar->id) }}" class="btn btn-simple btn-danger btn-xs " onclick="return confirm('Anda Yakin Akan Menghapus Data Ini ?')" ><i class="fa fa-trash"></i></a>
 
                                                             @if($keluar->status != "1")
                                                             | <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-out"></i>
@@ -151,6 +152,7 @@
                                                 </tbody>
                                                 </table>
                                             </div>
+
                                             <!-- modal upload file -->
                                             @foreach($data_surat_keluar as $keluar)
                                             <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -273,7 +275,7 @@
 
                                                                 <a href="{{route('admin.edit_suratkeluar_ex', [ 'id' => $keluar_ex->id]) }}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
-                                                                <a href="{{ url('admin/suratkeluar_ex/delete/'. $keluar_ex->id) }}" class="btn btn-simple btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
+                                                                <a href="{{ url('admin/suratkeluar_ex/delete/'. $keluar_ex->id) }}" class="btn btn-simple btn-danger btn-xs " onclick="return confirm('Anda Yakin Akan Menghapus Data Ini ?')" ><i class="fa fa-trash"></i></a>
                                                                 @if($keluar_ex->status != "1")
                                                                 | <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal4"><i class="fa fa-sign-out"></i>
                                                                 </button>
@@ -585,22 +587,6 @@
         });
     }); 
 
-
-    function deleteData(id){
-        var csrf_token = $('meta[name="csrf-token"]').attr('content');
-        swal({
-            title: 'Are You Sure?',
-            text: "You won't be able to revert this!",
-            type: 'warning',
-            showCancelButton: true,
-            cancelButtonColor: '#d33',
-            confirmButtonColor: "#DD6B55",
-            canfirmButtonText: 'Yes Delete It! ',
-            closeOnConfirm: false
-
-        });
-    }
-
      $(document).ready(function(){
                 $('.dataTables-example').DataTable({
                     pageLength: 10,
@@ -623,6 +609,23 @@
     });
 
 </script>
+
+<script type="text/javascript">
+        $(document).ready(function(){
+            $('#merks').on('change', function(e){
+                var id = e.target.value;
+                $.get('{{ url('merk')}}/'+id, function(data){
+                    console.log(id);
+                    console.log(data);
+                    $('#motors').empty();
+                    $.each(data, function(index, element){
+                        $('#motors').append("<tr><td>"+element.id_motor+"</td><td>"+element.id_merk+"</td>"+
+                        "<td>"+element.nama_motor+"</td></tr>");
+                    });
+                });
+            });
+        });
+    </script>
 
 
 

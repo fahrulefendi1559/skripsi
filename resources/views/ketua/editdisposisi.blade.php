@@ -31,47 +31,39 @@
                     </div>
 		        </div>
                 <div class="ibox-content">
-                	<form method="post" action="" enctype="multipart/form-data">
+                	<form method="post" action="{{route('ketua.updatedisposisi', ['id' => $dispo->id])}}" enctype="multipart/form-data">
                 		{{csrf_field()}}
 
-                		<div class="form-group  row">
-                			<label class="col-sm-2 col-form-label">Nomor Surat</label>
-							<div class="col-sm-10">
-							     <input type="text" class="form-control" name="nomorsurat" value="" autofocus required>
-                                    <span class="help-block with-errors"></span>
-                            </div>
-                        </div>
-
                         <div class="form-group  row">
-                			<label class="col-sm-2 col-form-label">Pengirim</label>
+                			<label class="col-sm-2 col-form-label">Jenis Surat</label>
 							<div class="col-sm-10">
-							     <input type="text" class="form-control" name="pengirim" value="" autofocus required>
-                                    <span class="help-block with-errors"></span>
-                             </div>
-                        </div>
-
-                        <div class="form-group  row">
-                			<label class="col-sm-2 col-form-label">Prihal</label>
-							<div class="col-sm-10">
-							     <input type="text" class="form-control" name="prihal" value="" autofocus required>
-                                    <span class="help-block with-errors"></span>
+                                <select class="form-control " name="id_sifat" autofocus required>
+                                    <option disabled selected>Pilih Jenis Surat</option>
+                                        @foreach ($sifatsurat as $sifat)                  
+                                            <option value="{{ $sifat->id_sifat }}" autofocus required>Surat {{ $sifat->sifat}}</option>             
+                                        @endforeach
+                                </select>
                             </div>
                         </div>
 
                         <div class="form-group  row">
                 			<label class="col-sm-2 col-form-label">Penerima</label>
 							<div class="col-sm-10">
-							     <input type="text" class="form-control" name="penerima" value="" autofocus required>
-                                    <span class="help-block with-errors"></span>
+                                <select class="form-control " name="id_role" autofocus required>
+                                    <option disabled selected>Pilih Bidang</option>
+                                        @foreach ($role as $roles)
+                                            @if($roles->id != "999" && $roles->id != "888" && $roles->id != "1")              
+                                                <option value="{{ $roles->id }}" autofocus required>Bidang {{ $roles->namarole}}</option>
+                                            @endif          
+                                        @endforeach
+                                </select>
                             </div>
                         </div>
-
-                        
 
                         <div class="form-group  row">
                 			<label class="col-sm-2 col-form-label">Tanggal Disposisi</label>
 							<div class="col-sm-10">
-							     <input type="text" class="form-control datepicker1" name="tgldispo" value="" autofocus required>
+							     <input type="text" class="form-control datepicker1" name="tgldispo" value="{{$dispo->tgldispo}}" autofocus required>
                                     <span class="help-block with-errors"></span>
                              </div>
                         </div>
@@ -79,7 +71,7 @@
                         <div class="form-group  row">
                 			<label class="col-sm-2 col-form-label">Catatan</label>
 							<div class="col-sm-10">
-							     <input type="text" class="form-control datepicker1" name="catatan" value="" autofocus required>
+							     <input type="text" class="form-control datepicker1" name="catatan" value="{{$dispo->catatan}}" autofocus required>
                                     <span class="help-block with-errors"></span>
                              </div>
                         </div>

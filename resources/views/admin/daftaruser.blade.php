@@ -68,7 +68,8 @@
                     </div>
                     
                     <div class="ibox-content">    	
-                    
+
+                        
                         <!-- Table users -->
 	                    <div class="table-responsive">
 		                    <table class="table table-striped table-bordered table-hover dataTables-example" >
@@ -76,6 +77,7 @@
 		                    <tr>
 		                        <th>Nama User</th>
 		                        <th>Username</th>
+                                <th>Role User</th>
 		                        <th>Email</th>
 		                        <th width="14%" class="text-center">Aksi</th>
 		                    </tr>
@@ -83,8 +85,10 @@
 		                    <tbody>
 		                    @foreach($data_user as $user)
 		                    <tr >
+                               
 		                        <td>{{$user->name}}</td>
 		                        <td>{{$user->username}}</td>
+                                <td>{{$user->namarole}}</td>
 		                        <td>{{$user->email}}</td>
                                 <td>
                                     <center>
@@ -93,16 +97,18 @@
                                             {{csrf_field()}}
                                             <a href=" {{url ('admin/user/edit/'. $user->id)}}"><span class="btn btn-simple btn-primary btn-xs"><i class="glyphicon glyphicon-edit"></i></span></a>
                                     
-                                            <a href="{{url ('admin/user/delete/'. $user->id)}}"><span class="btn btn-simple btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></span></a>
+                                            <a href="{{url ('admin/user/delete/'. $user->id)}}"><span class="btn btn-simple btn-danger btn-xs" onclick="return confirm('Anda Yakin Akan Menghapus Data Ini')" ><i class="glyphicon glyphicon-trash"></i></span></a>
                                             <br>
                                         </form>
                                     </center>
                                 </td>
+                               
 		                    </tr>
 		                   @endforeach
 							</tbody>
 		                    </table>
                         </div>
+                        
 
                         <div class="modal inmodal " id="myModal5" tabindex="-1" role="dialog"  aria-hidden="true">
                             <div class="modal-dialog">
@@ -129,7 +135,7 @@
 
 
 		                                    <div class="form-group">
-		                                    	<label">Role Users</label>
+		                                    	<label>Role Users</label>
 			                                    	<select class="form-control " name="roles_id">
 			                                    		@foreach ($role as $roles)
     			                                    		@if($roles->id != "999")
@@ -212,21 +218,7 @@
                 responsive: true,
                 dom: '<"html5buttons"B>lTfgitp',
                 buttons: [
-                    { extend: 'copy'},
-                    {extend: 'csv'},
-                    {extend: 'excel', title: 'ExampleFile'},
-                    {extend: 'pdf', title: 'ExampleFile'},
-
-                    {extend: 'print',
-                     customize: function (win){
-                            $(win.document.body).addClass('white-bg');
-                            $(win.document.body).css('font-size', '10px');
-
-                            $(win.document.body).find('table')
-                                    .addClass('compact')
-                                    .css('font-size', 'inherit');
-                    }
-                    }
+                   
                 ]
 
             });

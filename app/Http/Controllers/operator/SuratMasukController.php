@@ -9,6 +9,7 @@ use App\Suratperiode;
 use DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class SuratMasukController extends Controller
 {
@@ -33,17 +34,6 @@ class SuratMasukController extends Controller
     		'namafile'     => 'required',
     	]);
 
-    	// $upload = new suratmasuk();
-     //    $upload->id_periode = $request->id_periode;
-     //    $upload->nomorsurat = $request->nomorsurat;
-     //    $upload->pengirim   = $request->pengirim;
-     //    $upload->penerima   = $request->penerima;
-     //    $upload->prihal     = $request->prihal;
-     //    $upload->tglsurat   = $request->tglsurat;
-     //    $upload->tglterima  = $request->tglterima;
-     //    $upload->namafile   = $this->uploadFile($request);
-     //    $upload->save();
-
         $upload = DB::table('surat_masuk')->insert([
             'id_periode'    => $request->input('id_periode'),
             'status'        => '1',
@@ -55,6 +45,19 @@ class SuratMasukController extends Controller
             'tglterima'     => $request->input('tglterima'),
             'namafile'      => $this->uploadFile($request)
         ]);
+
+        // data dari email
+        $email="fahrulefendi46@gmail.com";
+        $data= array(
+            'email_body' => "Anda Memiliki File Surat Masuk Terbaru"    
+        );
+
+        // mengirim email ke alamat email kkn
+        Mail::send('admin/email_template', $data, function($mail) use ($email){
+            $mail->to($email, 'no-reply')
+            ->subject('Surat Masuk');
+            $mail->from('fahrulefendi25@gmail.com','Surat Masuk Baru');
+        });
         
         return redirect('operator/suratmasuk')->with('sukses','Data Berhasil Diinput');
     }

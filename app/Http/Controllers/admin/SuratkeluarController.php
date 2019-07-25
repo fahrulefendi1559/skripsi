@@ -1,23 +1,34 @@
 <?php
 
 namespace App\Http\Controllers\admin;
-
+/*
+ * File ini adalah Controller dari surat keluar dengan hak akses admin
+ *
+ * (C) Fahrul Efendi, Jurusan Ilmu Komputer Universitas Lampung
+ *
+ * Paket ini adalah Perangkat lunak yang tidak terbuka
+ * untuk hak cipta dan lisensi penuh milik Badan Pelaksana Kuliah Kerja Nyata (BP-KKN) Universitas Lampung
+ */
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use DB;
+use App\Filekeluar;
+use App\Filekeluarex;
+use PDF;
+use Response;
+use Storage;
 use App\Suratkeluar;
 use App\Suratperiode;
-use Storage;
-use App\Filekeluar;
 use App\Suratkeluarex;
-use App\Filekeluarex;
-use Response;
-use PDF;
-use DB;
-
+/**
+ * class untuk surat keluar internal dan external
+*/
 class SuratkeluarController extends Controller
 {
-    // awal untuk surat keluar internal DAN external
-    public function getsuratkeluar(){
+    // awal untuk surat keluar internal
+    public function getsuratkeluar()
+    {
         $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(5);
         $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(5);
         $datakeluar         = Suratkeluar::count();
@@ -25,7 +36,6 @@ class SuratkeluarController extends Controller
 
         
     	return view('admin.suratkeluar')->with([
-
             'data_surat_keluar' => $data_surat_keluar,
             'suratperiode'      => $suratperiode,
             'cek_keluar'        => $datakeluar,
@@ -33,7 +43,10 @@ class SuratkeluarController extends Controller
         ]);
     }
 
-    public function internal (Request $request){
+
+    // fungsi untuk input data surat keluar internal
+    public function internal (Request $request)
+    {
         $this->validate($request, [
             'id_periode'   => 'required',       
             'nomorsurat'   => 'required',
@@ -43,18 +56,9 @@ class SuratkeluarController extends Controller
             'lampiran'     => 'required',
             'tglsurat'     => 'required',
         ]);
-
-        // $upload = new Suratkeluar();
-        // $upload->id_periode = $request->id_periode;
-        // $upload->nomorsurat = $request->nomorsurat;
-        // $upload->pengirim   = $request->pengirim;
-        // $upload->penerima   = $request->penerima;
-        // $upload->prihal     = $request->prihal;
-        // $upload->lampiran   = $request->lampiran;
-        // $upload->tglsurat   = $request->tglsurat; 
-        // $upload->save();
-
-        $upload = DB::table('surat_keluar')->insert([
+        
+        
+        DB::table('surat_keluar')->insert([
             'id_periode'    => $request->input('id_periode'),
             'status'        => '0',
             'nomorsurat'    => $request->input('nomorsurat'),
@@ -65,22 +69,37 @@ class SuratkeluarController extends Controller
             'tglsurat'      => $request->input('tglsurat'),
         ]);
 
+        // data dari email
+        $email="fahrulefendi46@gmail.com";
+        $data= array(
+            'email_body' => "Anda Memiliki File Surat Keluar Terbaru"    
+        );
+
+        // mengirim email ke alamat email kkn
+        Mail::send('admin/email_templatekeluarinternal', $data, function($mail) use ($email){
+            $mail->to($email, 'no-reply')
+            ->subject('Surat Keluar Internal');
+            $mail->from('fahrulefendi25@gmail.com','Surat Keluar Internal');
+        });
+
         return redirect('admin/suratkeluar')->with('sukses','Data Berhasil Diinput');
     }
 
     
-
-    public function edit($id){
-       
+    // fungsi unti edit data surat keluar internal
+    public function edit($id)
+    {
+        // variabel keluar digunakan untuk memanggil data dari surat keluar yang diedit berdasarkan id surat keluar internal
         $keluar= Suratkeluar:: where('id',$id)->first();
   
         return view('admin.editsuratkeluar', compact('keluar','id'));
     }
 
-    public function update(Request $request,$id){
-
-        // $filekeluar = Filekeluar::where('id', $id)->pluck('namafile')->all();
-        if ($request->file('namafile')==null) {
+    // fungsi untuk update data dari surat keluar internal
+    public function update(Request $request,$id)
+    {
+        if ($request->file('namafile')==null) 
+        {
             $filee="";
         }
         else{
@@ -94,23 +113,25 @@ class SuratkeluarController extends Controller
         $keluar->penerima = $request->penerima;
         $keluar->prihal = $request->prihal;
         $keluar->tglsurat = $request->tglsurat;
-        // $keluar->namafile = $this->editFile($request);
-
         $keluar->save();
+
         return redirect()->route('admin.suratkeluar')->with('update', 'Data Berhasil Diudate'
             );
 
     }
 
-
-    public function createfile(Request $request){
+    // fungsi untuk menyimpan nama file kedalam database
+    public function createfile(Request $request)
+    {
         $this->validate($request, [
             'namafile'   => 'required'
         ]);
+        // query untuk update data status surat keluar
         DB::table('surat_keluar')->update([
             'status'        => '1'
         ]);
-        // $file= Filekeluar::where('id', $id)->pluck('namafile')->all();
+        
+        // variabel file digunakan untuk menampung data dari file dan kemudian akan memanggil fungsi upload file
         $file= DB::table('filekeluar')->insert([
             'id_suratkeluar'=> $request->input('id_keluar'),
             'namafile' => $this->uploadFile($request)
@@ -118,7 +139,9 @@ class SuratkeluarController extends Controller
         return redirect('admin/suratkeluar')->with('sukses','Data Berhasil Diinput');    
     }
 
-    protected function uploadFile($request){
+    // fungsi upload file digunakan untuk upload file kedalam storage/app/suratkeluar
+    protected function uploadFile($request)
+    {
         if ($request->hasFile('namafile')) {
             $file = $request->file('namafile');
             $originalFileName = $file->getClientOriginalName();
@@ -131,22 +154,25 @@ class SuratkeluarController extends Controller
         return null;
     }
 
-    // edit file surat keluar
-    protected function editFile($request){
-    if ($request->hasFile('namafile')) {
-            $keluar = $request->file('namafile');
-            $originalFileName = $keluar->getClientOriginalName();
-            $extension = $keluar->getClientOriginalExtension();
-            $filenameonly =pathinfo($originalFileName, PATHINFO_FILENAME);
-            $filename = str_slug($filenameonly). "-".time().".". $extension;
+    // // edit file surat keluar
+    // protected function editFile($request)
+    // {
+    //     if ($request->hasFile('namafile')) 
+    //         {
+    //             $keluar = $request->file('namafile');
+    //             $originalFileName = $keluar->getClientOriginalName();
+    //             $extension = $keluar->getClientOriginalExtension();
+    //             $filenameonly =pathinfo($originalFileName, PATHINFO_FILENAME);
+    //             $filename = str_slug($filenameonly). "-".time().".". $extension;
 
-            return $keluar ->storeAs('suratkeluar', $filename);
-        }
-        return null;
-    }
+    //             return $keluar ->storeAs('suratkeluar', $filename);
+    //         }
+    //     return null;
+    // }
 
     // hapus data dan file surat keluar
-    public function destroy($id){
+    public function destroy($id)
+    {
         //delete file dalam path
         $file = Filekeluar::where('id_suratkeluar', $id)->pluck('namafile')->all();
         Storage::delete($file);
@@ -157,7 +183,9 @@ class SuratkeluarController extends Controller
 
     }
 
-    public function viewpdf($id){
+    // fungsi untuk melihat file yang tersimpan ke dalam path storage/app/suratkeluar
+    public function viewpdf($id)
+    {
         $file = Filekeluar::where('id_suratkeluar', $id)->pluck('namafile')->first();
         // $filename = $request->namafile;
         $path = storage_path('app/'.$file);
@@ -165,25 +193,27 @@ class SuratkeluarController extends Controller
         return response()->file($path);
     }
 
-    public function createsuratpdf(){
+    // fungsi untuk membuat file pdf berdasarkan data yang telah diinputkan
+    public function createsuratpdf()
+    {
         $nomorsurat = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('nomorsurat');
         $prihal = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('prihal');
         $tglsurat = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('tglsurat');
         $penerima = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('penerima');
         $pengirim = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('pengirim');
 
-
+        // variabel pdf digunakan untuk memanggil library PDF dan akan menampilkan tamplate dari surat keluar dengan ketentuan kertas a4 potrait
         $pdf = PDF::loadView('admin.createsuratpdf', compact('nomorsurat', 'prihal', 'tglsurat', 'penerima', 'pengirim'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('suratkeluar_'.date('Y-m-d_H-i-s').'.pdf');
     }
-
     // akhir dari surat keluar internal
 
 
 
     // awal dari surat keluar external
-    public function external (Request $request){
+    public function external (Request $request)
+    {
         $this->validate($request, [
             'id_periode'   => 'required',       
             'nomorsurat'   => 'required',
@@ -205,11 +235,25 @@ class SuratkeluarController extends Controller
             'tglsurat'      => $request->input('tglsurat'),
         ]);
 
+         // data dari email
+         $email="fahrulefendi46@gmail.com";
+         $data= array(
+             'email_body' => "Anda Memiliki File Surat Keluar Terbaru"    
+         );
+ 
+         // mengirim email ke alamat email kkn
+         Mail::send('admin/email_templatekeluarexternal', $data, function($mail) use ($email){
+             $mail->to($email, 'no-reply')
+             ->subject('Surat Keluar External');
+             $mail->from('fahrulefendi25@gmail.com','Surat Keluar External');
+         });
+
         return redirect('admin/suratkeluar')->with('sukses','Data Berhasil Diinput');
     }
 
     // create file external
-    public function createfile_ex(Request $request){
+    public function createfile_ex(Request $request)
+    {
         $this->validate($request, [
             'namafile'   => 'required'
         ]);
@@ -223,8 +267,10 @@ class SuratkeluarController extends Controller
         ]);
         return redirect('admin/suratkeluar')->with('sukses','Data Berhasil Diinput');    
     }
+
     // untuk memberi nama file yang disimpan dan meletakkan direktori penyimpanan
-    protected function uploadFile_ex($request){
+    protected function uploadFile_ex($request)
+    {
         if ($request->hasFile('namafile')) {
             $file = $request->file('namafile');
             $originalFileName = $file->getClientOriginalName();
@@ -238,7 +284,8 @@ class SuratkeluarController extends Controller
     }
 
     // delete file and data external
-    public function destroy_ex($id){
+    public function destroy_ex($id)
+    {
         //delete file dalam path
         $file = Filekeluarex::where('id_suratkeluar_ex', $id)->pluck('namafile')->all();
         Storage::delete($file);
@@ -250,7 +297,8 @@ class SuratkeluarController extends Controller
     }
 
     // view pdf external
-    public function viewpdf_ex($id){
+    public function viewpdf_ex($id)
+    {
         $file = Filekeluarex::where('id_suratkeluar_ex', $id)->pluck('namafile')->first();
         $path = storage_path('app/'.$file);
 
@@ -258,7 +306,8 @@ class SuratkeluarController extends Controller
     }
 
     // create pdf suratkeluar external
-    public function createsuratpdf_ex(){
+    public function createsuratpdf_ex()
+    {
         $nomorsurat = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('nomorsurat');
         $prihal = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('prihal');
         $tglsurat = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('tglsurat');
@@ -271,33 +320,23 @@ class SuratkeluarController extends Controller
         return $pdf->stream('suratkeluar_'.date('Y-m-d_H-i-s').'.pdf');
     }
 
-    public function edit_ex($id){
-       
+    // fungsi untuk edit data berdasarkan id
+    public function edit_ex($id)
+    {
         $keluar_ex= Suratkeluarex:: where('id',$id)->first();
   
         return view('admin.editsuratkeluar_ex', compact('keluar_ex','id'));
     }
 
-
-    public function update_ex(Request $request,$id){
-
-        // // $filekeluar = Filekeluar::where('id', $id)->pluck('namafile')->all();
-        // if ($request->file('namafile')==null) {
-        //     $filee="";
-        // }
-        // else{
-        //     $filee= Filekeluar::where('id', $id)->pluck('namafile')->all();
-        //     Storage::delete($filee);
-        // }
-
+    // update data surat keluar external
+    public function update_ex(Request $request,$id)
+    {
         $keluar_ex = Suratkeluarex::where('id', $id)->first();
         $keluar_ex->nomorsurat = $request->nomorsurat;
         $keluar_ex->pengirim = $request->pengirim;
         $keluar_ex->penerima = $request->penerima;
         $keluar_ex->prihal = $request->prihal;
         $keluar_ex->tglsurat = $request->tglsurat;
-        // $keluar->namafile = $this->editFile($request);
-
         $keluar_ex->save();
         return redirect()->route('admin.suratkeluar')->with('update', 'Data Berhasil Diudate'
             );
@@ -306,3 +345,5 @@ class SuratkeluarController extends Controller
 
 
 }
+// polymorphism sesuatu yang memiliki banyak bentuk, modul yang memiliki nama sama tapi behavior yang berbeda
+// membuat interface Perkebunan

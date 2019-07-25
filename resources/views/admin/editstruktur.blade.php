@@ -31,8 +31,10 @@
             </div>
 
             <div class="ibox-content">
-                <form method="post" action="{{route('admin.editketua',['id_detail_struktur' => $struktur->id_detail_struktur])}}" enctype="multipart/form-data">
+                <form method="post" action="{{route('admin.editketua')}}" enctype="multipart/form-data">
                     {{csrf_field()}}
+
+                    <input type="hidden" name="id" value="{{ $struktur->id_detail_struktur }}">
 
                     <div class="form-group  row">
                         <label class="col-sm-2 col-form-label">Nama</label>

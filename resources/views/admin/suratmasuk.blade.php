@@ -99,7 +99,7 @@
 
                                         <a href="{{url ('admin/suratmasuk/edit/'. $masuk->id)}}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
-                                        <a href="{{url ('admin/suratmasuk/delete/'. $masuk->id)}}" class="btn btn-simple btn-danger btn-xs delete" ><i class="fa fa-trash"></i></a>
+                                        <a href="{{url ('admin/suratmasuk/delete/'. $masuk->id)}}" class="btn btn-simple btn-danger btn-xs delete" onclick="return confirm('Anda Yakin Akan Menghapus Data Ini')" ><i class="fa fa-trash"></i></a>
 
                                     </form>
                                 </center></td>

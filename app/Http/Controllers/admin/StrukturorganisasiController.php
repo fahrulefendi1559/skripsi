@@ -59,7 +59,12 @@ class StrukturorganisasiController extends Controller
          ->join('struktur_organisasi', 'detail_struktur.id_struktur_organisasi', '=', 'struktur_organisasi.id_struktur')
          ->select('detail_struktur.*', 'struktur_organisasi.nama_struktur')
          ->where('id_detail_struktur','8')
-         ->get();      
+         ->get();
+         
+      $struktur= DB::table('detail_struktur')
+      ->join('struktur_organisasi', 'detail_struktur.id_struktur_organisasi', '=', 'struktur_organisasi.id_struktur')
+      ->select('detail_struktur.*', 'struktur_organisasi.nama_struktur')
+      ->get(); 
       
       $suratperiode    = Strukturorganisasi::all();
 
@@ -72,8 +77,8 @@ class StrukturorganisasiController extends Controller
           'dataop'            => $dataop,
           'datapengker'       => $datapengker,
           'datati'            => $datati,
-          'dataeval'          => $dataeval
-
+          'dataeval'          => $dataeval,
+          'struktur'          => $struktur
       ]);
    }
 
@@ -83,13 +88,14 @@ class StrukturorganisasiController extends Controller
       return view('admin.editstruktur', compact('struktur','id_detail_struktur'));
    }
 
-   public function updateketua(Request $request,$id_detail_struktur){
-      $editketua = Detailstruktur::where('id_detail_struktur', $id_detail_struktur)->first();
-      $editketua->nama = $request->nama;
-      $editketua->nip  = $request->nip;
-      $editketua->save();
+   public function updateketua(Request $request){
+      DB::table('detail_struktur')->where('id_detail_struktur',$request->id)->update([
+         'nama' => $request->nama,
+         'nip' => $request->nip
+      ]);
 
-      return redirect()->route('admin.struktur')->with('update', 'Data Berhasil Diudate'
+      
+      return redirect()->route('admin.struktur')->with('update', 'Data Berhasil Diupdate'
             );
    }
 }

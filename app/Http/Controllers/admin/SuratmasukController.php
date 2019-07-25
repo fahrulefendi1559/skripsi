@@ -4,11 +4,14 @@ namespace App\Http\Controllers\admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\suratmasuk;
 use App\Disposisi;
-use App\Suratperiode;
-use Storage;
 use DB;
+use Illuminate\Support\Facades\Mail;
+use Storage;
+use App\suratmasuk;
+use App\Suratperiode;
+
+
 use Illuminate\Support\Facades\Input;
 
 
@@ -36,19 +39,6 @@ class SuratmasukController extends Controller
     		'namafile'     => 'required',
     	]);
 
-
-
-        // $upload = new suratmasuk();
-        // $upload->id_periode = $request->id_periode;
-        // $upload->nomorsurat = $request->nomorsurat;
-        // $upload->pengirim   = $request->pengirim;
-        // $upload->penerima   = $request->penerima;
-        // $upload->prihal     = $request->prihal;
-        // $upload->tglsurat   = $request->tglsurat;
-        // $upload->tglterima  = $request->tglterima;
-        // $upload->namafile   = $this->uploadFile($request);
-        // $upload->save();
-
         $upload = DB::table('surat_masuk')->insert([
             'id_periode'    => $request->input('id_periode'),
             'status'        => '1',
@@ -60,6 +50,20 @@ class SuratmasukController extends Controller
             'tglterima'     => $request->input('tglterima'),
             'namafile'      => $this->uploadFile($request)
         ]);
+
+        // data dari email
+        $email="fahrulefendi46@gmail.com";
+        $data= array(
+            'email_body' => "Anda Memiliki File Surat Masuk Terbaru"    
+        );
+
+        // mengirim email ke alamat email kkn
+        Mail::send('admin/email_template', $data, function($mail) use ($email){
+            $mail->to($email, 'no-reply')
+            ->subject('Surat Masuk');
+            $mail->from('fahrulefendi25@gmail.com','Surat Masuk Baru');
+        });
+
         
         return redirect('admin/suratmasuk')->with('sukses','Data Berhasil Diinput');
     }
@@ -97,7 +101,7 @@ class SuratmasukController extends Controller
         $masuk->penerima = $request->penerima;
         $masuk->prihal = $request->prihal;
         $masuk->tglsurat = $request->tglsurat;
-        $masuk->namafile = $this->editFile($request);
+        // $masuk->namafile = $this->editFile($request);
 
         $masuk->save();
         return redirect()->route('admin.suratmasuk')->with('update','Data Berhasil Diupdate');

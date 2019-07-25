@@ -49,7 +49,7 @@
 
 
                         <div class="form-group row">
-                            <label class="col-sm-2 col-form-label">Sifat Surat</label>
+                            <label class="col-sm-2 col-form-label">Disposisi Ke</label>
                                 <div class="col-sm-10">
                                     <select class="form-control " name="id_role" autofocus required>
                                         <option disabled selected>Pilih Bidang</option>

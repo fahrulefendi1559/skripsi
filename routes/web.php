@@ -84,7 +84,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 	//manajemen struktur organisasi
 	Route::get('/strukturorganisasi/', 'admin\StrukturorganisasiController@list')->name('admin.struktur');
 	Route::get('/strukturorganisasi/edit/{id_detail_struktur}', 'admin\StrukturorganisasiController@edit')->name('admin.editstruktur');
-	Route::post('/strukturorganisasi/edit/post/{id_detail_struktur}','admin\StrukturorganisasiController@updateketua')->name('admin.editketua');
+	Route::post('/strukturorganisasi/edit/post','admin\StrukturorganisasiController@updateketua')->name('admin.editketua');
 
 	// disposisi
 	Route::get('/suratmasuk/disposisi/{id}', 'admin\DisposisiController@index')->name('admin.disposisi');
@@ -161,6 +161,7 @@ Route::group(['middleware' => 'ketua', 'prefix' => 'ketua'], function () {
 
 	Route::get('/disposisi/viewdisposisi/', 'ketua\DisposisiController@viewdisposisi')->name('ketua.viewdisposisi');
 	Route::get('/disposisi/edit/{id}','ketua\DisposisiController@editdisposisi');
+	Route::post('/disposisi/edit/post/{id}','ketua\DisposisiController@updatedisposisi')->name('ketua.updatedisposisi');
 	
 	// laporan
 	Route::get('/laporan', 'ketua\LaporanController@index')->name('ketua.laporan');

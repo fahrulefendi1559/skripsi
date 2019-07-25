@@ -130,7 +130,7 @@
                 
                                                             <a href="{{url('operator/suratkeluar/edit/'. $keluar->id) }}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
-                                                            <a href="{{ url('operator/suratkeluar/delete/'. $keluar->id) }}" class="btn btn-simple btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
+                                                            <a href="{{ url('operator/suratkeluar/delete/'. $keluar->id) }}" class="btn btn-simple btn-danger btn-xs " onclick="return confirm('Anda Yakin Akan Menghapus Data Ini ?')" ><i class="fa fa-trash"></i></a>
 
                                                             @if($keluar->status != "1")
                                                             | <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-out"></i>
@@ -263,7 +263,7 @@
                 
                                                             <a href="{{url('operator/suratkeluar_ex/edit/'. $keluar_ex->id) }}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
-                                                            <a href="{{ url('operator/suratkeluar_ex/delete/'. $keluar_ex->id) }}" class="btn btn-simple btn-danger btn-xs " ><i class="fa fa-trash"></i></a>
+                                                            <a href="{{ url('operator/suratkeluar_ex/delete/'. $keluar_ex->id) }}" class="btn btn-simple btn-danger btn-xs " onclick="return confirm('Anda Yakin Akan Menghapus Data Ini ?')" ><i class="fa fa-trash"></i></a>
 
                                                             @if($keluar_ex ->status != "1")
                                                             | <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal4"><i class="fa fa-sign-out"></i>

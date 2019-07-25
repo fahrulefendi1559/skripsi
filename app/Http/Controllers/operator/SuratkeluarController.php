@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\operator;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Controller;
 use App\Suratkeluar;
 use App\Suratperiode;
@@ -46,16 +47,6 @@ class SuratkeluarController extends Controller
             'tglsurat'     => 'required',
         ]);
 
-        // $upload = new Suratkeluar();
-        // $upload->id_periode = $request->id_periode;
-        // $upload->nomorsurat = $request->nomorsurat;
-        // $upload->pengirim   = $request->pengirim;
-        // $upload->penerima   = $request->penerima;
-        // $upload->prihal     = $request->prihal;
-        // $upload->lampiran   = $request->lampiran;
-        // $upload->tglsurat   = $request->tglsurat;
-        // $upload->save();
-
         $upload = DB::table('surat_keluar')->insert([
             'id_periode'    => $request->input('id_periode'),
             'status'        => '0',
@@ -66,6 +57,19 @@ class SuratkeluarController extends Controller
             'lampiran'      => $request->input('lampiran'),
             'tglsurat'      => $request->input('tglsurat'),
         ]);
+
+        // data dari email
+        $email="fahrulefendi46@gmail.com";
+        $data= array(
+            'email_body' => "Anda Memiliki File Surat Keluar Terbaru"    
+        );
+
+        // mengirim email ke alamat email kkn
+        Mail::send('admin/email_templatekeluarinternal', $data, function($mail) use ($email){
+            $mail->to($email, 'no-reply')
+            ->subject('Surat Keluar Internal');
+            $mail->from('fahrulefendi25@gmail.com','Surat Keluar Internal');
+        });
 
         return redirect('operator/suratkeluar')->with('sukses','Data Berhasil Diinput');
     }
@@ -206,6 +210,19 @@ class SuratkeluarController extends Controller
             'lampiran'      => $request->input('lampiran'),
             'tglsurat'      => $request->input('tglsurat'),
         ]);
+
+        // data dari email
+        $email="fahrulefendi46@gmail.com";
+        $data= array(
+            'email_body' => "Anda Memiliki File Surat Keluar Terbaru"    
+        );
+
+        // mengirim email ke alamat email kkn
+        Mail::send('admin/email_templatekeluarexternal', $data, function($mail) use ($email){
+            $mail->to($email, 'no-reply')
+            ->subject('Surat Keluar External');
+            $mail->from('fahrulefendi25@gmail.com','Surat Keluar External');
+        });
 
         return redirect('operator/suratkeluar')->with('sukses','Data Berhasil Diinput');
     }

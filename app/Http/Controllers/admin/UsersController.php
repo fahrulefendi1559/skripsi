@@ -20,13 +20,19 @@ class UsersController extends Controller
 
 
     public function index(){
-    	$data_user= register:: all();
+        $data_user= DB::table('users')
+        ->join('roles', 'users.roles_id', '=', 'roles.id')
+        ->select('users.*', 'roles.namarole')
+        ->get(); 
+
+
     	$role = Role::all();
     	return view('admin.daftaruser')->with([
     		'data_user'=>$data_user,
     		'role'     => $role
     	]);
     }
+
 
     public function create_user(Request $data)
     {
@@ -63,12 +69,6 @@ class UsersController extends Controller
             'username'       => 'required',
             'email'          => 'required',
         ]);
-
-        // $edituser   = new User();
-        // $edituser->name     = $request->name;
-        // $edituser->username = $request->username;
-        // $edituser->email    = $request->email;  
-        // $edituser->save();
 
         Auth::User()->update([
             'name'      => $request->name,
