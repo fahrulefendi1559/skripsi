@@ -58,13 +58,13 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 		
 		Route::post('/suratkeluar/uploadfile', 'admin\SuratkeluarController@createfile')->name('admin.createfilekeluar');
 
-		Route::get('/suratkeluar/filesuratkeluar/pdf', 'admin\SuratkeluarController@createsuratpdf')->name('admin.keluarfilepdf');
+		Route::get('/suratkeluar/filesuratkeluar/pdf/{id}', 'admin\SuratkeluarController@createsuratpdf')->name('admin.keluarfilepdf');
 
 		// external surat keluar
 		Route::post('/createsuratkeluarexternal', 'admin\SuratkeluarController@external')->name('admin.createsuratkeluarexternal');
 		Route::post('/suratkeluar_ex/uploadfileexternal', 'admin\SuratkeluarController@createfile_ex')->name('admin.createfilekeluar_ex');
 		Route::get('/suratkeluar_ex/delete/{id}','admin\SuratkeluarController@destroy_ex')->name('admin.deletesuratkeluar_ex');
-		Route::get('/suratkeluar_ex/filesuratkeluar/pdf', 'admin\SuratkeluarController@createsuratpdf_ex')->name('admin.keluarfilepdf_ex');
+		Route::get('/suratkeluar_ex/filesuratkeluar/pdf/{id}', 'admin\SuratkeluarController@createsuratpdf_ex')->name('admin.keluarfilepdf_ex');
 		Route::get('/suratkeluar_ex/viewpdf/{id}', 'admin\SuratkeluarController@viewpdf_ex')->name('admin.viewpdfsuratseluar_ex');
 		
 		
@@ -75,6 +75,11 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function () {
 
 	// surat tugas
 	Route::get('/surattugas', 'admin\SurattugasController@getsurattugas')->name('admin.getsurattugas');
+	Route::post('surattugas','admin\SurattugasController@create_surat_tugas')->name('admin.savetugas');
+	Route::get('surattugas/edit/{id}','admin\SurattugasController@edit')->name('admin.edittugas');
+	Route::post('surattugas/edit/post/{id}', 'admin\SurattugasController@update')->name('admin.update');
+	Route::get('surattugas/delete/{id}','admin\SurattugasController@delete')->name('admin.delete');
+	Route::get('surattugas/viewpdf/{id}','admin\SurattugasController@viewpdf')->name('admin.viewpdftugas');
 
 	//laporan
 	Route::get('/laporan/','admin\LaporanController@laporan')->name('admin.laporan');
@@ -127,7 +132,7 @@ Route::group(['middleware' => 'operator', 'prefix' => 'operator'], function () {
 		Route::get('/suratkeluar/viewpdf/{id}/', 'operator\SuratkeluarController@viewpdf')->name('opr.viewpdf');
 		Route::post('/suratkeluar/uploadfile', 'operator\SuratkeluarController@createfile')->name('opr.createfilekeluar');
 		
-		Route::get('/suratkeluar/filesuratkeluar/pdf', 'operator\SuratkeluarController@createsuratpdf')->name('opr.keluarfilepdf');
+		Route::get('/suratkeluar/filesuratkeluar/pdf/{id}', 'operator\SuratkeluarController@createsuratpdf')->name('opr.keluarfilepdf');
 
 
 		// Surat Keluar External
@@ -137,18 +142,21 @@ Route::group(['middleware' => 'operator', 'prefix' => 'operator'], function () {
 		Route::get('/suratkeluar_ex/delete/{id}', 'operator\SuratkeluarController@delete_ex')->name('opr.deletekeluar_ex');
 		Route::get('/suratkeluar_ex/viewpdf/{id}/', 'operator\SuratkeluarController@viewpdf_ex')->name('opr.viewpdf_ex');
 		Route::post('/suratkeluar_ex/uploadfile', 'operator\SuratkeluarController@createfile_ex')->name('opr.createfilekeluar_ex');
-		Route::get('/suratkeluar_ex/filesuratkeluar/pdf', 'operator\SuratkeluarController@createsuratpdf_ex')->name('opr.createsuratpdf_ex');
+		Route::get('/suratkeluar_ex/filesuratkeluar/pdf/{id}', 'operator\SuratkeluarController@createsuratpdf_ex')->name('opr.createsuratpdf_ex');
 
 	// surat tugas
 	Route::get('/surattugas', 'operator\SurattugasController@getsurattugas')->name('operator.tugas');
+	Route::post('surattugas/','operator\SurattugasController@create_surat_tugas')->name('opr.savetugas');
+	Route::get('surattugas/delete/{id}', 'operator\SurattugasController@delete')->name('opr.deletetugas');
+	Route::get('surattugas/edit/{id}','operator\SurattugasController@edit')->name('opr.edittugas');
+	Route::post('surattugas/edit/post/{id}','operator\SurattugasController@update')->name('opr.update');
+	Route::get('surattugas/viewpdf/{id}','operator\SurattugasController@viewpdf')->name('opr.viewpdf');
 
 
 	// laporan
 	Route::get('/laporan', 'operator\LaporanController@laporan')->name('opr.laporan');
 	Route::get('/laporan/suratmasuk/', 'operator\LaporanController@masukPdf')->name('opr.masukpdf');
 	Route::get('/laporan/suratkeluar/', 'operator\LaporanController@keluarPdf');
-
-
 });
 
 
@@ -167,5 +175,26 @@ Route::group(['middleware' => 'ketua', 'prefix' => 'ketua'], function () {
 	Route::get('/laporan', 'ketua\LaporanController@index')->name('ketua.laporan');
 	Route::get('/laporan/suratmasuk/', 'ketua\LaporanController@masukPdf');
 	Route::get('/laporan/suratkeluar', 'ketua\LaporanController@keluarPdf');
+
+});
+
+Route::group(['middleware' => 'sekre', 'prefix' => 'sekre'], function () {
+	Route::get('/home',				'ketuabidang\SekreController@indexHome')->name('sekre.home');
+	Route::get('/suratmasuk/', 'ketuabidang\SekreController@suratmasuksekre')->name('sekre.lihatsurat');
+	Route::get('/suratmasuk/viewpdf/{id}','ketuabidang\SekreController@viewpdf')->name('sekre.viewpdf');
+
+});
+
+Route::group(['middleware' => 'operasional', 'prefix' => 'operasional'], function () {
+	Route::get('/home',				'ketuabidang\OperasionalController@indexHome')->name('operasional.home');
+	Route::get('/suratmasuk/', 'ketuabidang\OperasionalController@suratmasuksekre')->name('operasional.lihatsurat');
+	Route::get('/suratmasuk/viewpdf/{id}','ketuabidang\OperasionalController@viewpdf')->name('operasional.viewpdf');
+
+});
+
+Route::group(['middleware' => 'pendikpel', 'prefix' => 'pendikpel'], function () {
+	Route::get('/home',				'ketuabidang\PendikpelController@indexHome')->name('pendikpel.home');
+	Route::get('/suratmasuk/', 'ketuabidang\PendikpelController@suratmasuksekre')->name('pendikpel.lihatsurat');
+	Route::get('/suratmasuk/viewpdf/{id}','ketuabidang\PendikpelController@viewpdf')->name('pendikpel.viewpdf');
 
 });

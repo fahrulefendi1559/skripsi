@@ -79,6 +79,30 @@
             <li>
                 <a href="{{ route('ketua.laporan') }}"><i class="fa fa-book"></i> <span class="nav-label">Laporan</span></a>
             </li>
+
+            @elseif(Auth::user()->roles_id == 2)
+            <li>
+                <a href="{{route('sekre.home')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboards</span></a>
+            </li>
+            <li>
+                <a href="{{route('sekre.lihatsurat')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Masuk</span></a>
+            </li>
+
+            @elseif(Auth::user()->roles_id == 3)
+            <li>
+                <a href="{{route('pendikpel.home')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboards</span></a>
+            </li>
+            <li>
+                <a href="{{route('pendikpel.lihatsurat')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Masuk</span></a>
+            </li>
+
+            @elseif(Auth::user()->roles_id == 4)
+            <li>
+                <a href="{{route('operasional.home')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboards</span></a>
+            </li>
+            <li>
+                <a href="{{route('operasional.lihatsurat')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Masuk</span></a>
+            </li>
             @endif
 
 

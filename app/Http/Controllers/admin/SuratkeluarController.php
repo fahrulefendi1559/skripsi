@@ -27,19 +27,19 @@ use App\Suratkeluarex;
 class SuratkeluarController extends Controller
 {
     // awal untuk surat keluar internal
-    public function getsuratkeluar()
+    public function getsuratkeluar(Request $req)    
     {
         $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(5);
         $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(5);
         $datakeluar         = Suratkeluar::count();
         $suratperiode       = Suratperiode::all();
 
-        
     	return view('admin.suratkeluar')->with([
             'data_surat_keluar' => $data_surat_keluar,
             'suratperiode'      => $suratperiode,
             'cek_keluar'        => $datakeluar,
-            'data_surat_keluar_ex'=> $data_surat_keluar_ex
+        'data_surat_keluar_ex'  => $data_surat_keluar_ex,
+            
         ]);
     }
 
@@ -194,17 +194,19 @@ class SuratkeluarController extends Controller
     }
 
     // fungsi untuk membuat file pdf berdasarkan data yang telah diinputkan
-    public function createsuratpdf()
+    public function createsuratpdf($id)
     {
-        $nomorsurat = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('nomorsurat');
-        $prihal = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('prihal');
-        $tglsurat = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('tglsurat');
-        $penerima = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('penerima');
-        $pengirim = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('pengirim');
+        $nomorsurat =DB::table('surat_keluar')->where('id', $id)->value('nomorsurat');
+        $penerima   =DB::table('surat_keluar')->where('id', $id)->value('penerima');
+        $lampiran   =DB::table('surat_keluar')->where('id', $id)->value('lampiran');
+        $prihal     =DB::table('surat_keluar')->where('id', $id)->value('prihal');
+        $tglsurat   =DB::table('surat_keluar')->where('id', $id)->value('tglsurat');
+        $ketua      =DB::table('detail_struktur')->where('id_detail_struktur', '1')->value('nama');
+        $nip        =DB::table('detail_struktur')->where('id_detail_struktur', '1')->value('nip');
 
         // variabel pdf digunakan untuk memanggil library PDF dan akan menampilkan tamplate dari surat keluar dengan ketentuan kertas a4 potrait
-        $pdf = PDF::loadView('admin.createsuratpdf', compact('nomorsurat', 'prihal', 'tglsurat', 'penerima', 'pengirim'));
-        $pdf->setPaper('a4', 'potrait');
+        $pdf = PDF::loadView('admin.createsuratpdf', compact('nomorsurat', 'prihal', 'tglsurat', 'penerima', 'lampiran','ketua','nip'));
+        $pdf->setPaper('A4', 'potrait');
         return $pdf->stream('suratkeluar_'.date('Y-m-d_H-i-s').'.pdf');
     }
     // akhir dari surat keluar internal
@@ -306,16 +308,18 @@ class SuratkeluarController extends Controller
     }
 
     // create pdf suratkeluar external
-    public function createsuratpdf_ex()
+    public function createsuratpdf_ex($id)
     {
-        $nomorsurat = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('nomorsurat');
-        $prihal = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('prihal');
-        $tglsurat = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('tglsurat');
-        $penerima = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('penerima');
-        $pengirim = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('pengirim');
+        $nomorsurat =DB::table('surat_keluar_ex')->where('id', $id)->value('nomorsurat');
+        $penerima   =DB::table('surat_keluar_ex')->where('id', $id)->value('penerima');
+        $lampiran   =DB::table('surat_keluar_ex')->where('id', $id)->value('lampiran');
+        $prihal     =DB::table('surat_keluar_ex')->where('id', $id)->value('prihal');
+        $tglsurat   =DB::table('surat_keluar_ex')->where('id', $id)->value('tglsurat');
+        $ketua      =DB::table('detail_struktur')->where('id_detail_struktur', '1')->value('nama');
+        $nip        =DB::table('detail_struktur')->where('id_detail_struktur', '1')->value('nip');
 
 
-        $pdf = PDF::loadView('admin.createsuratpdf', compact('nomorsurat', 'prihal', 'tglsurat', 'penerima', 'pengirim'));
+        $pdf = PDF::loadView('admin.createsuratpdf', compact('nomorsurat', 'prihal', 'tglsurat', 'penerima', 'lampiran','ketua','nip'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('suratkeluar_'.date('Y-m-d_H-i-s').'.pdf');
     }

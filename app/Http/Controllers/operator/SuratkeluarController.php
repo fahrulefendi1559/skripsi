@@ -126,8 +126,6 @@ class SuratkeluarController extends Controller
         $keluar->penerima 	= $request->penerima;
         $keluar->prihal 	= $request->prihal;
         $keluar->tglsurat 	= $request->tglsurat;
-        // $keluar->namafile 	= $this->editFile($request);
-
         $keluar->save();
         return redirect()->route('opr.suratkeluar')->with('update', 'Data Berhasil Diupdate');
 
@@ -170,15 +168,17 @@ class SuratkeluarController extends Controller
     }
 
     // create surat keluar dengan data surat yang ada didalam database surat keluar
-    public function createsuratpdf(){
-        $nomorsurat = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('nomorsurat');
-        $prihal = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('prihal');
-        $tglsurat = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('tglsurat');
-        $penerima = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('penerima');
-        $pengirim = DB::table('surat_keluar')->orderBy('id', 'DESC')->value('pengirim');
+    public function createsuratpdf($id){
+        $nomorsurat =DB::table('surat_keluar')->where('id', $id)->value('nomorsurat');
+        $penerima   =DB::table('surat_keluar')->where('id', $id)->value('penerima');
+        $lampiran   =DB::table('surat_keluar')->where('id', $id)->value('lampiran');
+        $prihal     =DB::table('surat_keluar')->where('id', $id)->value('prihal');
+        $tglsurat   =DB::table('surat_keluar')->where('id', $id)->value('tglsurat');
+        $ketua      =DB::table('detail_struktur')->where('id_detail_struktur', '1')->value('nama');
+        $nip        =DB::table('detail_struktur')->where('id_detail_struktur', '1')->value('nip');
 
 
-        $pdf = PDF::loadView('admin.createsuratpdf', compact('nomorsurat', 'prihal', 'tglsurat', 'penerima', 'pengirim'));
+        $pdf = PDF::loadView('operator.createpdfkeluar', compact('nomorsurat', 'prihal', 'tglsurat', 'penerima', 'lampiran','ketua','nip'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('suratkeluar_'.date('Y-m-d_H-i-s').'.pdf');
     }
@@ -247,13 +247,6 @@ class SuratkeluarController extends Controller
 
     // update data internal surat keluar
     public function update_ex(Request $request,$id){
-    	// if ($request->file('namafile')==null) {
-        //     $filee="";
-        // }
-        // else{
-        //      $filee= Suratkeluarex::where('id', $id)->pluck('namafile')->all();
-        //     Storage::delete($filee);
-        // }
 
         $keluar_ex = Suratkeluarex::where('id', $id)->first();
         $keluar_ex->nomorsurat = $request->nomorsurat;
@@ -307,11 +300,20 @@ class SuratkeluarController extends Controller
         return null;
     }
 
+    // create surat keluar dengan data surat yang ada didalam database surat keluar
+    public function createsuratpdf_ex($id){
+        $nomorsurat =DB::table('surat_keluar_ex')->where('id', $id)->value('nomorsurat');
+        $penerima   =DB::table('surat_keluar_ex')->where('id', $id)->value('penerima');
+        $lampiran   =DB::table('surat_keluar_ex')->where('id', $id)->value('lampiran');
+        $prihal     =DB::table('surat_keluar_ex')->where('id', $id)->value('prihal');
+        $tglsurat   =DB::table('surat_keluar_ex')->where('id', $id)->value('tglsurat');
+        $ketua      =DB::table('detail_struktur')->where('id_detail_struktur', '1')->value('nama');
+        $nip        =DB::table('detail_struktur')->where('id_detail_struktur', '1')->value('nip');
 
 
-
+        $pdf = PDF::loadView('operator.createpdfkeluar', compact('nomorsurat', 'prihal', 'tglsurat', 'penerima', 'lampiran','ketua','nip'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream('suratkeluar_'.date('Y-m-d_H-i-s').'.pdf');
+    }
     // akhir dari controller surat keluar external
-
-
-
 }

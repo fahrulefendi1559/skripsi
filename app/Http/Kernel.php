@@ -60,5 +60,8 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\UserAdministrator::class,
         'operator' => \App\Http\Middleware\UserOperator::class,
         'ketua' => \App\Http\Middleware\UserKetua::class,
+        'sekre' => \App\Http\Middleware\UserSekre::class,
+        'operasional' => \App\Http\Middleware\UserOperasional::class,
+        'pendikpel' => \App\Http\Middleware\UserPendidikan::class,
     ];
 }

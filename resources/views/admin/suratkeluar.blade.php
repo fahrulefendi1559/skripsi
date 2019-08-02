@@ -107,7 +107,7 @@
                                             </div>
 
                                             <div class="table-responsive">
-                                                <table class="table table-striped" >
+                                                <table class="table table-" >
                                                     <thead>
                                                     <tr>
                                                         <th><center>Nomor Surat</center></th>
@@ -134,7 +134,7 @@
                                                             <a href="{{ route('admin.keluarfilepdf', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a> |
 
                                                             @if($keluar->status == "1")
-                                                            <a href="{{ route('admin.viewpdfsuratseluar', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " ><i class="fa fa-book"></i></a>
+                                                            <a href="{{ route('admin.viewpdfsuratseluar', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-book"></i></a>
                                                             @endif
                 
                                                             <a href="{{url('admin/suratkeluar/edit/'. $keluar->id) }}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
@@ -267,10 +267,10 @@
                                                             <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                                                 {{csrf_field()}}
                                                                 
-                                                                <a href="{{ route('admin.keluarfilepdf_ex', [ 'id' => $keluar_ex->id]) }}" class="btn btn-simple btn-info btn-xs " ><i class="fa fa-file-pdf-o"></i></a> |
+                                                                <a href="{{ route('admin.keluarfilepdf_ex', [ 'id' => $keluar_ex->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a> |
 
                                                                 @if($keluar_ex->status == "1")
-                                                                <a href="{{ route('admin.viewpdfsuratseluar_ex', [ 'id' => $keluar_ex->id]) }}" class="btn btn-simple btn-info btn-xs " ><i class="fa fa-book"></i></a>
+                                                                <a href="{{ route('admin.viewpdfsuratseluar_ex', [ 'id' => $keluar_ex->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-book"></i></a>
                                                                 @endif
 
                                                                 <a href="{{route('admin.edit_suratkeluar_ex', [ 'id' => $keluar_ex->id]) }}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>

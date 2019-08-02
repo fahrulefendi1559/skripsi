@@ -27,15 +27,39 @@
 </div>
 
 
-<!-- data tables -->
+
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
+		@if(session('sukses'))
+		    <div class="alert alert-success col-lg-12">
+            	{{session('sukses')}}
+            </div>
+        @endif
+
+        @if(session('delete'))
+            <div class="alert alert-info col-lg-12">
+                {{session('delete')}}
+            </div>
+        @endif
+
+        @if(session('update'))
+            <div class="alert alert-info col-lg-12">
+                {{session('update')}}
+            </div>
+        @endif
 
         <div class="col-lg-12">
         	<div class="ibox ">
             	<div class="ibox-title">
                 	<h5>Data Surat Tugas</h5>
-                        <div class="ibox-tools">                            
+                        <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            
                             <a class="close-link">
                                 <i class="fa fa-times"></i>
                             </a>
@@ -43,10 +67,7 @@
                 </div>
                     
                 <div class="ibox-content">    	
-                    <!-- model window tambah data-->
-                    <button>ini untuk mencari data </button>
-                    <br> <br>
-                        <!-- Table users -->
+                        <!-- Table data tugas-->
 	                    <div class="table-responsive">
 		                    <table class="table table-striped table-bordered table-hover dataTables-example" >
 			                    <thead>
@@ -61,29 +82,29 @@
 			                    </tr>
 			                    </thead>
 		                    <tbody>
-		                   
+		                    @foreach($surat_tugas as $tugas)
 		                    <tr >
-		                        <td><center> </center></td>
-		                        <td><center> </center></td>
-		                        <td><center> </center></td>
-		                        <td><center> </center></td>
-		                        <td><center> </center></td>
-		                        <td><center> </center></td>
+		                        <td><center>{{$tugas->nomorsurat}}</center></td>
+		                        <td><center>{{$tugas->prihal}}</center></td>
+		                        <td><center>{{$tugas->tglsurat}}</center></td>
+		                        <td><center>{{$tugas->kabupaten}}</center></td>
+		                        <td><center>{{$tugas->kecamatan}}</center></td>
+		                        <td><center>{{$tugas->desa}}</center></td>
                                 <td><center>
                                     
 		                        	<form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                         {{csrf_field()}}
 
-                                        <a href=" " class="btn btn-simple btn-info btn-xs " ><i class="fa fa-file-pdf-o"></i></a>
+                                        <a href="{{ route('opr.viewpdf', ['id' => $tugas->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
 
-                                        <a href=" " class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
+                                        <a href="{{url ('operator/surattugas/edit/'. $tugas->id)}}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
-                                        <a href=" " class="btn btn-simple btn-danger btn-xs delete" ><i class="fa fa-trash"></i></a>
+                                        <a href="{{url ('operator/surattugas/delete/'. $tugas->id)}}" class="btn btn-simple btn-danger btn-xs delete" onclick="return confirm('Anda Yakin Akan Menghapus Data Ini')" ><i class="fa fa-trash"></i></a>
 
                                     </form>
                                 </center></td>
 		                    </tr>
-		                   
+		                   @endforeach
 							</tbody>
 		                    </table>
                         </div>
@@ -110,7 +131,7 @@
                                             </div>
 
                                         @endif
-                                    	<form role="form" method="POST" action="{{route('admin.createsuratmasuk')}}" enctype="multipart/form-data">
+                                    	<form role="form" method="POST" action="{{route('opr.savetugas')}}" enctype="multipart/form-data">
                                     		{{csrf_field()}}  {{method_field('POST')}}
 
                                             <input type="hidden" id="id" name="id"></input>
@@ -119,11 +140,24 @@
                                                 <label>Periode Surat</label> 
                                                 <select class="form-control " name="id_periode" autofocus required>
                                                     <option disabled selected>Pilih Periode Surat</option>
-                                                    
+                                                    @foreach ($suratperiode as $periode)
                                                        
-                                                        <option value=" " autofocus required> </option>
+                                                        <option value="{{ $periode->id_periode }}" autofocus required>Periode {{ $periode->periode}} {{ $periode->tahun }}</option>
                                                         
+                                                    @endforeach
+                                                </select>
+                                                <span class="help-block with-errors"></span>
+                                            </div>
 
+                                            <div class="form-group">
+                                                <label>Periode Surat</label> 
+                                                <select class="form-control " name="id_tugas" autofocus required>
+                                                    <option disabled selected>Pilih Jenis Tugas</option>
+                                                    @foreach ($jenis_tugas as $jenistugas)
+                                                       
+                                                        <option value="{{ $jenistugas->id_jenis_tugas }}" autofocus required> {{ $jenistugas->nama_tugas }}</option>
+                                                        
+                                                    @endforeach
                                                 </select>
                                                 <span class="help-block with-errors"></span>
                                             </div>
@@ -134,31 +168,34 @@
                                                 <span class="help-block with-errors"></span>
 		                                    </div>
 
-		                                    <div class="form-group">
-		                                    	<label>Pengirim</label> 
-		                                    	<input type="text" placeholder="Pengirim Surat" class="form-control" name="pengirim" autofocus required>
-                                                <span class="help-block with-errors"></span>
-		                                    </div>
-
-		                                    <div class="form-group">
-		                                    	<label>Penerima</label> 
-		                                    	<input type="text" placeholder="Penerima Surat" class="form-control" name="penerima" autofocus required>
-                                                <span class="help-block with-errors"></span>
-		                                    </div>
 
 		                                    <div class="form-group">
 		                                    	<label>Prihal</label> 
 		                                    	<input type="text" placeholder="Prihal Surat" class="form-control" name="prihal" autofocus required>
                                                 <span class="help-block with-errors"></span>
 		                                    </div>
+
 		                                    <div class="form-group">
 		                                    	<label>Tgl Surat</label> 
 		                                    	<input type="text"  class="form-control datepicker1" name="tglsurat" autofocus required>
                                                 <span class="help-block with-errors"></span>
 		                                    </div>
-		                                    <div class="form-group" >
-		                                    	<label>Tgl Terima</label> 
-		                                    	<input type="text"  class="form-control datepicker" name="tglterima" autofocus required>
+		                                    
+                                            <div class="form-group">
+		                                    	<label>Kabupaten</label> 
+		                                    	<input type="text" placeholder="Kabupaten" class="form-control" name="kabupaten" autofocus required>
+                                                <span class="help-block with-errors"></span>
+		                                    </div>
+
+                                            <div class="form-group">
+		                                    	<label>Kecamatan</label> 
+		                                    	<input type="text" placeholder="Kecamatan" class="form-control" name="kecamatan" autofocus required>
+                                                <span class="help-block with-errors"></span>
+		                                    </div>
+
+                                            <div class="form-group">
+		                                    	<label>Desa</label> 
+		                                    	<input type="text" placeholder="Desa" class="form-control" name="desa" autofocus required>
                                                 <span class="help-block with-errors"></span>
 		                                    </div>
 
@@ -183,124 +220,27 @@
                     </div>
                 </div>
             </div>
-            </div>
         </div>
+</div>
 
 <script type="text/javascript">
-    // $(document).on("clik", ".delete", function(e){
-    //     var link = $(this).attr("href");
-    //     e.preventDefault();
-    //     swal({ title: "Kamu Yakin?",
-    //         text: "Data Akan Dihapus!",
-    //         type: "warning",
-    //         showCancelButton:true,
-    //         confirmButtonColor: "#DD6B55",
-    //         confirmButtonClass: "btn btn-info btn-fill",
-    //         confirmButtonText: "Ya",
-    //         cancelButtonClass: "btn btn-danger btn-fill",
-    //         confirmButtonText: "Tidak",
-    //         closeOnConfirm: false,
-    //     },function(){
-    //         document.location.href() = link;
-    //     });
-    // });
+    function addForm(){
+        save_method = "add";
+        $('input[name=_method]').val('POST'); 
+        $('#myModal2 form')[0].reset();
+        $('.modal-title').text('Input Data Surat Tugas');
+    }
 
-    document.querySelector(".delete").addEventListener("clik", function(){
-        swal({
-            title: "Apa Kamu Yakin?",
-            type: "info",
-            showCancelButton:true,
-            confirmButtonText: "Delete",
-            confirmButtonColor: "#ff0055",
-            cancelButtonColor: "#999999",
-            reverseButton: true,
-            focusConfirm:false,
-            focusCancel:true
-        })
-    })
-</script>
-
-<script type="text/javascript">
-    //date picker tgl terima
- $(function(){
-  $(".datepicker").datepicker({
-      format: 'yyyy-mm-dd',
-      autoclose: true,
-      todayHighlight: true,
-  });
- });
-
- //datepicker tgl surat
- $(function(){
-  $(".datepicker1").datepicker({
-      format: 'yyyy-mm-dd',
-      autoclose: true,
-      todayHighlight: true,
-  });
- });
-
- //modalscript
- function addForm(){
-    save_method = "add";
-    $('input[name=_method]').val('POST'); 
-    $('#myModal2 form')[0].reset();
-    $('.modal-title').text('Input Data Surat Tugas');
- }
-
- $ (function (){
-        $ ('myModal2 form').validator().on('submit',function(e){
-            if (!e.isDefaultPrevented()) {
-                var id = $('#id').val();
-                if (save_method == 'add') url = "{{ url('suratmasuk') }}";
-                else url = "{{ url('suratmasuk'). '/' }}" + id;
-
-                $.ajax({
-                    url : url,
-                    type : "POST",
-                    data : $('#myModal2 form').serialize(),
-                    success : function ($data){
-                        $('#modal-form').modal('hide');
-                    },
-
-                    error : function(){
-                        alert('Oops! Something error!');
-                    }
-                });
-                return false;
-            }   
+    //datepicker tgl surat
+    $(function(){
+        $(".datepicker1").datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            todayHighlight: true,
         });
- }); 
+    });
 
-
-function editForm(id){
-    save_method ='edit';
-     $('input[name=_method]').val('PATCH'); 
-     $('#myModal2 form')[0].reset();
-     $.ajax({
-        url : "{{ url('suratmasuk') }}" + '/' + id + "/edit",
-        type : "GET",
-        dataType: "JSON",
-        success : function(data){
-            $('#modal-form').modal('show');
-            $('.modal-title').text('Edit Data Surat Masuk');
-
-            $('#id').val(data.id);
-            $('#nomorsurat').val(data.nomorsurat);
-            $('#perngirim').val(data.pengirim);
-            $('#penerima').val(data.penerima);
-            $('#prihal').val(data.prihal);
-            $('#tglsurat').val(data.tglsurat);
-            $('#tglterima').val(data.tglterima);
-            $('#namafile').val(data.namafile);
-        },
-        error : function(){
-            alert("Nothing Data");
-        }
-     });
-}
-
-
- $(document).ready(function(){
+    $(document).ready(function(){
             $('.dataTables-example').DataTable({
                 pageLength: 10,
                 responsive: true,
@@ -312,12 +252,6 @@ function editForm(id){
             });
 
         });
-
 </script>
-
-<script type="text/javascript">
- 
-</script>
-
 
 @endsection

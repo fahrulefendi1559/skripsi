@@ -95,7 +95,7 @@
 		                        	<form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                         {{csrf_field()}}
 
-                                        <a href="{{ route('admin.viewpdfsuratmasuk', ['id' => $masuk->id]) }}" class="btn btn-simple btn-info btn-xs " ><i class="fa fa-file-pdf-o"></i></a>
+                                        <a href="{{ route('admin.viewpdfsuratmasuk', ['id' => $masuk->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
 
                                         <a href="{{url ('admin/suratmasuk/edit/'. $masuk->id)}}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
@@ -204,28 +204,12 @@
                     </div>
                 </div>
             </div>
-            </div>
         </div>
+</div>
+
+
 
 <script type="text/javascript">
-    // $(document).on("clik", ".delete", function(e){
-    //     var link = $(this).attr("href");
-    //     e.preventDefault();
-    //     swal({ title: "Kamu Yakin?",
-    //         text: "Data Akan Dihapus!",
-    //         type: "warning",
-    //         showCancelButton:true,
-    //         confirmButtonColor: "#DD6B55",
-    //         confirmButtonClass: "btn btn-info btn-fill",
-    //         confirmButtonText: "Ya",
-    //         cancelButtonClass: "btn btn-danger btn-fill",
-    //         confirmButtonText: "Tidak",
-    //         closeOnConfirm: false,
-    //     },function(){
-    //         document.location.href() = link;
-    //     });
-    // });
-
     document.querySelector(".delete").addEventListener("clik", function(){
         swal({
             title: "Apa Kamu Yakin?",
