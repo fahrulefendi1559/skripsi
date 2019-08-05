@@ -63,5 +63,8 @@ class Kernel extends HttpKernel
         'sekre' => \App\Http\Middleware\UserSekre::class,
         'operasional' => \App\Http\Middleware\UserOperasional::class,
         'pendikpel' => \App\Http\Middleware\UserPendidikan::class,
+        'pengembangan' => \App\Http\Middleware\UserPengembangan::class,
+        'teknologi' => \App\Http\Middleware\UserTeknologiinformasi::class,
+        'evaluasi' => \App\Http\Middleware\UserEvaluasi::class,
     ];
 }

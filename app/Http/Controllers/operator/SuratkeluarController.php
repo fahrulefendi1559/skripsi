@@ -33,6 +33,62 @@ class SuratkeluarController extends Controller
         ]);
     }
 
+    public function cari(Request $request)
+    {
+        $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(10);
+        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(10);
+        $datakeluar         = Suratkeluar::count();
+        $suratperiode       = Suratperiode::all();
+        // menangkap data pencarian
+		$cari = $request->cari;
+ 
+        // mengambil data dari table pegawai sesuai pencarian data
+        $filter = DB::table('surat_keluar')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        $filterex = DB::table('surat_keluar_ex')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        return view('admin.suratkeluarin')->with([
+            'filter'            => $filter,
+            'filterex'           => $filterex,
+            'data_surat_keluar' => $data_surat_keluar,
+            'suratperiode'      => $suratperiode,
+            'cek_keluar'        => $datakeluar,
+        'data_surat_keluar_ex'  => $data_surat_keluar_ex,
+        ]);
+    }
+
+    public function cari_ex(Request $request)
+    {
+        $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(10);
+        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(10);
+        $datakeluar         = Suratkeluar::count();
+        $suratperiode       = Suratperiode::all();
+        // menangkap data pencarian
+		$cari = $request->cari;
+        
+        $filter = DB::table('surat_keluar')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        // mengambil data dari table pegawai sesuai pencarian data
+        $filterex = DB::table('surat_keluar_ex')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        return view('operator.suratkeluarin')->with([
+            'filterex'           => $filterex,
+            'filter'            => $filter,
+            'data_surat_keluar' => $data_surat_keluar,
+            'suratperiode'      => $suratperiode,
+            'cek_keluar'        => $datakeluar,
+        'data_surat_keluar_ex'  => $data_surat_keluar_ex,
+        ]);
+    }
+
     // awal dari controller internal surat keluar
     // controller insert data internal
     public function internal(Request $request){
@@ -77,7 +133,7 @@ class SuratkeluarController extends Controller
     // create file menyimpan data dan dokumen 
      public function createfile(Request $request){
         $this->validate($request, [
-            'namafile'   => 'required'
+            'namafile'   => 'required | max:3000'
         ]);
         DB::table('surat_keluar')->update([
             'status'        => '1'
@@ -274,7 +330,7 @@ class SuratkeluarController extends Controller
     // create file dan disimpan kedalam
     public function createfile_ex(Request $request){
         $this->validate($request, [
-            'namafile'   => 'required'
+            'namafile'   => 'required | max:3000'
         ]);
         DB::table('surat_keluar_ex')->update([
             'status'        => '1'

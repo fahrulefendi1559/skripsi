@@ -22,8 +22,17 @@ class PendikpelController extends Controller
 
     public function indexHome()
     {
-        
-        return view('pendikpel.home');
+        $Tahun=DB::table('surat_periode')->orderBy('id_periode', 'DESC')->value('tahun');
+        $Periode=DB::table('surat_periode')->orderBy('id_periode', 'DESC')->value('periode');
+        $countsurat=DB::table('disposisi')
+        ->where('id_role', '3')
+        ->count();
+
+        return view('pendikpel.home')->with([
+            'Tahun' => $Tahun,
+            'Periode' => $Periode,
+            'countsurat' => $countsurat,
+        ]);
     }
 
     public function suratmasuksekre()

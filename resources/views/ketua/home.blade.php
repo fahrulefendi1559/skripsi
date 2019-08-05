@@ -6,7 +6,7 @@
     <div class="col-lg-4">
         <div class="ibox ">
             <div class="ibox-title">
-                <span class="label label-success float-right">{{ $Tahun }}</span>
+                <span class="label label-success float-right">{{ $Periode }} {{ $Tahun }}</span>
                 <h5>Surat Masuk</h5>
             </div>
             <div class="ibox-content">
@@ -20,8 +20,8 @@
     <div class="col-lg-4">
         <div class="ibox ">
             <div class="ibox-title">
-                <span class="label label-success float-right">{{$Tahun}}</span>
-                <h5>Surat Keluar</h5>
+                <span class="label label-success float-right">{{ $Periode }} {{$Tahun}}</span>
+                <h5>Surat Keluar Internal</h5>
             </div>
             <div class="ibox-content">
                 <h1 class="no-margins">{{$countkeluar}} Arsip</h1>
@@ -34,11 +34,25 @@
     <div class="col-lg-4">
         <div class="ibox ">
             <div class="ibox-title">
-                <span class="label label-success float-right">{{$Tahun}}</span>
+                <span class="label label-success float-right">{{ $Periode }} {{$Tahun}}</span>
+                <h5>Surat Keluar External</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">{{$countkeluarex}} Arsip</h1>
+
+                <small>Total Surat Keluar</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <span class="label label-success float-right">{{ $Periode }} {{$Tahun}}</span>
                 <h5>Surat Tugas</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins">{{$countkeluar}} Arsip</h1>
+                <h1 class="no-margins">{{$counttugas}} Arsip</h1>
 
                 <small>Total Surat Tugas</small>
             </div>

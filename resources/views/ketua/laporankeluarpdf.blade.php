@@ -56,10 +56,10 @@
     }
 	</style>
   <link rel="stylesheet" href="">
-	<title>Laporan Data Buku</title>
+	<title>Laporan Surat Keluar Internal</title>
 </head>
 <body>
-<h1 class="center">LAPORAN DATA SURAT KELUAR</h1>
+<h1 class="center">LAPORAN DATA SURAT KELUAR INTERNAL</h1>
  <table id="pseudo-demo">
                       <thead>
                         <tr>

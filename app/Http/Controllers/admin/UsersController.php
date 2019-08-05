@@ -37,10 +37,10 @@ class UsersController extends Controller
     public function create_user(Request $data)
     {
     	$this->validate($data, [
-    		'username' => 'required',
+    		'username' => 'required | unique:users',
     		'roles_id' => 'required',
     		'name'     => 'required',
-    		'email'    => 'required',
+    		'email'    => 'required | unique:users',
     		'password' => 'required',
     	]);
 
@@ -62,7 +62,7 @@ class UsersController extends Controller
         return view('admin.edituser', compact('edituser','id'));
     }
 
-    public function update(Request $request){
+    public function update(Request $request,$id){
 
         $this->validate($request, [
             'name'           => 'required',
@@ -70,11 +70,17 @@ class UsersController extends Controller
             'email'          => 'required',
         ]);
 
-        Auth::User()->update([
-            'name'      => $request->name,
-            'username'  => $request->username,
-            'email'     => $request->email
-        ]);
+        // Auth::User()->update([
+        //     'name'      => $request->name,
+        //     'username'  => $request->username,
+        //     'email'     => $request->email
+        // ]);
+
+        $user = User:: where('id', $id)->first();
+        $user->name     = $request->name;
+        $user->username = $request->username;
+        $user->email    = $request->email;
+        $user->update();
 
         return redirect('admin/registerusers')->with('update','Data Berhasil Diupdate');
 

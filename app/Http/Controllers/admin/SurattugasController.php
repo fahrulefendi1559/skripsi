@@ -31,6 +31,28 @@ class SurattugasController extends Controller
     	return view('admin/surattugas');
     }
 
+    public function cari(Request $request)
+    {
+        $surat_tugas        = Surattugas::orderby('id','DESC')->paginate(10);
+        $suratperiode       = Suratperiode::all();
+        $jenis_tugas        = Jenistugas::all();
+
+        // menangkap data pencarian
+		$cari = $request->cari;
+ 
+        // mengambil data dari table pegawai sesuai pencarian data
+        $filter = DB::table('surat_tugas')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        return view('admin.carisurattugas')->with([
+            'filter'            => $filter,
+            'jenis_tugas'       => $jenis_tugas,
+            'suratperiode'      => $suratperiode,
+            'surat_tugas'       => $surat_tugas
+        ]);
+    }
+
 
     public function create_surat_tugas(Request $request){
     	$this->validate($request, [

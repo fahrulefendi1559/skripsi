@@ -30,12 +30,6 @@ class DisposisiController extends Controller
         $dispo= Disposisi:: where('id',$id)->first();
         $role= Role::all();
         $sifatsurat= Sifat::all();
-        // $editdispo= DB::table('disposisi')
-        // ->join('surat_masuk', 'disposisi.id_suratmasuk', '=', 'surat_masuk.id')
-        // ->join('sifat', 'disposisi.id_sifat', '=', 'sifat.id_sifat')
-        // ->join('roles', 'disposisi.id_role', '=', 'roles.id')
-        // ->select('disposisi.*', 'sifat.sifat','roles.namarole','surat_masuk.nomorsurat','surat_masuk.prihal','surat_masuk.pengirim')
-        // ->get();
 
         return view('ketua.editdisposisi')->with([
             'dispo'        => $dispo,

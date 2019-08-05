@@ -29,10 +29,13 @@ class SuratkeluarController extends Controller
     // awal untuk surat keluar internal
     public function getsuratkeluar(Request $req)    
     {
-        $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(5);
-        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(5);
+        $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(10);
+        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(10);
         $datakeluar         = Suratkeluar::count();
         $suratperiode       = Suratperiode::all();
+        
+
+        
 
     	return view('admin.suratkeluar')->with([
             'data_surat_keluar' => $data_surat_keluar,
@@ -40,6 +43,62 @@ class SuratkeluarController extends Controller
             'cek_keluar'        => $datakeluar,
         'data_surat_keluar_ex'  => $data_surat_keluar_ex,
             
+        ]);
+    }
+
+    public function cari(Request $request)
+    {
+        $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(10);
+        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(10);
+        $datakeluar         = Suratkeluar::count();
+        $suratperiode       = Suratperiode::all();
+        // menangkap data pencarian
+		$cari = $request->cari;
+ 
+        // mengambil data dari table pegawai sesuai pencarian data
+        $filter = DB::table('surat_keluar')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        $filterex = DB::table('surat_keluar_ex')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        return view('admin.suratkeluarin')->with([
+            'filter'            => $filter,
+            'filterex'           => $filterex,
+            'data_surat_keluar' => $data_surat_keluar,
+            'suratperiode'      => $suratperiode,
+            'cek_keluar'        => $datakeluar,
+        'data_surat_keluar_ex'  => $data_surat_keluar_ex,
+        ]);
+    }
+
+    public function cari_ex(Request $request)
+    {
+        $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(10);
+        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(10);
+        $datakeluar         = Suratkeluar::count();
+        $suratperiode       = Suratperiode::all();
+        // menangkap data pencarian
+		$cari = $request->cari;
+        
+        $filter = DB::table('surat_keluar')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        // mengambil data dari table pegawai sesuai pencarian data
+        $filterex = DB::table('surat_keluar_ex')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        return view('admin.suratkeluarin')->with([
+            'filterex'           => $filterex,
+            'filter'            => $filter,
+            'data_surat_keluar' => $data_surat_keluar,
+            'suratperiode'      => $suratperiode,
+            'cek_keluar'        => $datakeluar,
+        'data_surat_keluar_ex'  => $data_surat_keluar_ex,
         ]);
     }
 
@@ -98,15 +157,6 @@ class SuratkeluarController extends Controller
     // fungsi untuk update data dari surat keluar internal
     public function update(Request $request,$id)
     {
-        if ($request->file('namafile')==null) 
-        {
-            $filee="";
-        }
-        else{
-            $filee= Filekeluar::where('id', $id)->pluck('namafile')->all();
-            Storage::delete($filee);
-        }
-
         $keluar = Suratkeluar::where('id', $id)->first();
         $keluar->nomorsurat = $request->nomorsurat;
         $keluar->pengirim = $request->pengirim;
@@ -124,7 +174,7 @@ class SuratkeluarController extends Controller
     public function createfile(Request $request)
     {
         $this->validate($request, [
-            'namafile'   => 'required'
+            'namafile'   => 'required | max:3000'
         ]);
         // query untuk update data status surat keluar
         DB::table('surat_keluar')->update([
@@ -257,7 +307,7 @@ class SuratkeluarController extends Controller
     public function createfile_ex(Request $request)
     {
         $this->validate($request, [
-            'namafile'   => 'required'
+            'namafile'   => 'required | max:3000'
         ]);
         DB::table('surat_keluar_ex')->update([
             'status'        => '1'

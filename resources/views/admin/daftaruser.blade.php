@@ -48,6 +48,18 @@
                     </div>
                  @endif
 
+                 @if ($errors->has('username'))
+                    <div class="alert alert-danger col-lg-12">
+                        <strong>{{ $errors->first('username') }}</strong>
+                    </div>
+                @endif
+
+                @if ($errors->has('email'))
+                    <div class="alert alert-danger col-lg-12">
+                        <strong>{{ $errors->first('email') }}</strong>
+                    </div>
+                @endif
+
 
                 <div class="col-lg-12">
                 <div class="ibox ">

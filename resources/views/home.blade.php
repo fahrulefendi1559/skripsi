@@ -28,5 +28,19 @@
       header("Location: pendikpel/home");
       exit;
     ?>
-
+<?php elseif (Auth::user()->roles_id == 5): ?>
+    <?php
+      header("Location: pengembangan/home");
+      exit;
+    ?>
+<?php elseif (Auth::user()->roles_id == 6): ?>
+    <?php
+      header("Location: teknologi/home");
+      exit;
+    ?>
+<?php elseif (Auth::user()->roles_id == 7): ?>
+    <?php
+      header("Location: evaluasi/home");
+      exit;
+    ?>    
 <?php endif ?>

@@ -103,6 +103,30 @@
             <li>
                 <a href="{{route('operasional.lihatsurat')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Masuk</span></a>
             </li>
+
+            @elseif(Auth::user()->roles_id == 5)
+            <li>
+                <a href="{{route('pengembangan.home')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboards</span></a>
+            </li>
+            <li>
+                <a href="{{route('pengembangan.lihatsurat')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Masuk</span></a>
+            </li>
+
+            @elseif(Auth::user()->roles_id == 6)
+            <li>
+                <a href="{{route('teknologi.home')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboards</span></a>
+            </li>
+            <li>
+                <a href="{{route('teknologi.lihatsurat')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Masuk</span></a>
+            </li>
+
+            @elseif(Auth::user()->roles_id == 7)
+            <li>
+                <a href="{{route('evaluasi.home')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboards</span></a>
+            </li>
+            <li>
+                <a href="{{route('evaluasi.lihatsurat')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Masuk</span></a>
+            </li>
             @endif
 
 

@@ -14,6 +14,7 @@ use App\Role;
 use DB;
 use Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -41,6 +42,14 @@ class HomeController extends Controller
         ->where('id_periode', $IDPeriode)
         ->count();
 
+        $countkeluarex=DB::table('surat_keluar_ex')
+        ->where('id_periode', $IDPeriode)
+        ->count();
+
+        $counttugas=DB::table('surat_tugas')
+        ->where('id_periode', $IDPeriode)
+        ->count();
+
         $disposisi= DB::table('surat_masuk')
         ->where('status', "1")
         ->count();
@@ -60,6 +69,8 @@ class HomeController extends Controller
             'datasuratmasuk'=> $datasuratmasuk,
             'Periode'       => $Periode,
             'asalsurat'     => $asalsurat,
+            'countkeluarex' => $countkeluarex,
+            'counttugas'    => $counttugas,
             'prihal'        => $prihal
     
         ]);
@@ -85,6 +96,25 @@ class HomeController extends Controller
             'tgldispo'     => $request->input('tgldispo'),
             'catatan'      => $request->input('catatan')
           ]);
+
+          
+        // $b=User::all();
+
+        // if($b->roles_id = 2)
+        // {
+        //     $email=User::select('email')->where('roles_id','2');
+        //     $data= array(
+        //         'email_body' => "Anda Memiliki File Surat Masuk Terbaru"    
+        //     );
+
+        //     // mengirim email ke alamat email kkn
+        //     Mail::send('ketua/emailtemplate', $data, function($mail) use ($email){
+        //         $mail->to($email, 'no-reply')
+        //         ->subject('Surat Masuk');
+        //         $mail->from('fahrulefendi25@gmail.com','Surat Masuk Baru');
+        //     });
+        //  }
+
 
         return redirect('ketua/home')->with('sukses','Surat Berhasil Didisposisikan');
     }

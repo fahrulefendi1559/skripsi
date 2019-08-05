@@ -64,6 +64,20 @@
 
         <!-- AWAL DARI UKURAN KANVAS -->
         <div class="col-lg-12">
+            <div class="row">
+                <div class="col-sm-3 m-b-xs">
+                    <form action="suratkeluar/cari" method="GET">
+                        <!-- get data periode surat -->
+                        <select class="form-control-sm form-control input-s-sm inline" name="cari">
+                            <option disabled selected>Pilih Periode Surat</option>
+                                @foreach ($suratperiode as $periode)      
+                                    <option value="{{ $periode->id_periode }}" autofocus required>Periode {{ $periode->periode}} {{ $periode->tahun }}</option>   
+                                @endforeach
+                        </select>
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary">Go!
+                </form>
+            </div>
             <!-- AWAL CONTAINER TAB -->
             <div class="tabs-container">
                 <ul class="nav nav-tabs" role="tablist">
@@ -86,36 +100,17 @@
                                 <div class="col-lg-12">
                                     <div class="ibox ">                                                
                                         <div class="ibox-content">
-                                            <div class="row">
-                                                <div class="col-sm-5 m-b-xs">
-                                                    <select class="form-control-sm form-control input-s-sm inline">
-                                                        <option value="0">Option 1</option>
-                                                        <option value="1">Option 2</option>
-                                                        <option value="2">Option 3</option>
-                                                        <option value="3">Option 4</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-sm-3">
-                                                    <div class="input-group">
-                                                        <input placeholder="Search" type="text" class="form-control form-control-sm">
-                                                            <span class="input-group-append"> 
-                                                            <button type="button" class="btn btn-sm btn-primary">Go!
-                                                            </button> </span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
 
                                             <div class="table-responsive">
-                                                <table class="table table-" >
+                                                <table class="table table-striped table-bordered table-hover dataTables-example" >
                                                     <thead>
                                                     <tr>
                                                         <th><center>Nomor Surat</center></th>
                                                         <th><center>Pengirim</center></th>
                                                         <th><center>Penerima</center></th>
-                                                        <th><center>Prihal</center></th>
                                                         <th><center>Tgl Surat</center></th>
-                                                        <th width="20%"><center>Aksi</center></th>
+                                                        <th ><center>Aksi</center></th>
                                                     </tr>
                                                     </thead>
                                                 <tbody>
@@ -124,14 +119,13 @@
                                                     <td><center>{{$keluar->nomorsurat}}</center></td>
                                                     <td><center>{{$keluar->pengirim}}</center></td>
                                                     <td><center>{{$keluar->penerima}}</center></td>
-                                                    <td><center>{{$keluar->prihal}}</center></td>
                                                     <td><center>{{$keluar->tglsurat}}</center></td>
                                                     <td><center>
                                                         
                                                         <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                                             {{csrf_field()}}
                                                             
-                                                            <a href="{{ route('admin.keluarfilepdf', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a> |
+                                                            <a href="{{ route('admin.keluarfilepdf', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
 
                                                             @if($keluar->status == "1")
                                                             <a href="{{ route('admin.viewpdfsuratseluar', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-book"></i></a>
@@ -142,7 +136,7 @@
                                                             <a href="{{ url('admin/suratkeluar/delete/'. $keluar->id) }}" class="btn btn-simple btn-danger btn-xs " onclick="return confirm('Anda Yakin Akan Menghapus Data Ini ?')" ><i class="fa fa-trash"></i></a>
 
                                                             @if($keluar->status != "1")
-                                                            | <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-out"></i>
+                                                            <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-out"></i>
                                                             </button>
                                                             @endif
                                                         </form>
@@ -221,54 +215,31 @@
                                 <div class="col-lg-12">
                                     <div class="ibox ">                                                
                                         <div class="ibox-content">
-                                            <div class="row">
-
-                                                <div class="col-sm-5 m-b-xs">
-                                                    <select class="form-control-sm form-control input-s-sm inline">
-                                                        <option value="0">Option 1</option>
-                                                        <option value="1">Option 2</option>
-                                                        <option value="2">Option 3</option>
-                                                        <option value="3">Option 4</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-sm-3">
-                                                    <div class="input-group">
-                                                        <input placeholder="Search" type="text" class="form-control form-control-sm">
-                                                        <span class="input-group-append"> 
-                                                        <button type="button" class="btn btn-sm btn-primary">Go!
-                                                        </button> </span>
-                                                    </div>
-                                                </div>
-                                            </div>
 
                                             <div class="table-responsive">
-                                                <table class="table table-striped">
-                                                    <thead> 
-                                                        <tr>
-                                                            <th><center>Nomor Surat</center></th>
-                                                            <th><center>Pengirim</center></th>
-                                                            <th><center>Penerima</center></th>
-                                                            <th><center>Prihal</center></th>
-                                                            <th><center>Tgl Surat</center></th>
-                                                            <th width="18%"><center>Aksi</center></th>
-                                                        </tr>
+                                                <table class="table table-striped table-bordered table-hover dataTables-example2" >
+                                                    <thead>
+                                                    <tr>
+                                                        <th><center>Nomor Surat</center></th>
+                                                        <th><center>Pengirim</center></th>
+                                                        <th><center>Penerima</center></th>
+                                                        <th><center>Tgl Surat</center></th>
+                                                        <th ><center>Aksi</center></th>
+                                                    </tr>
                                                     </thead>
-                                                    <tbody>
-                                                    @foreach($data_surat_keluar_ex as $keluar_ex)
-                                                    <tr >
-                                                        <td><center>{{$keluar_ex->nomorsurat}}</center></td>
-                                                        <td><center>{{$keluar_ex->pengirim}}</center></td>
-                                                        <td><center>{{$keluar_ex->penerima}}</center></td>
-                                                        <td><center>{{$keluar_ex->prihal}}</center></td>
-                                                        <td><center>{{$keluar_ex->tglsurat}}</center></td>
-                                                        <td><center>
-                                                            
+                                                <tbody>
+                                                @foreach($data_surat_keluar_ex as $keluar_ex)
+                                                <tr >
+                                                    <td><center>{{$keluar_ex->nomorsurat}}</center></td>
+                                                    <td><center>{{$keluar_ex->pengirim}}</center></td>
+                                                    <td><center>{{$keluar_ex->penerima}}</center></td>
+                                                    <td><center>{{$keluar_ex->tglsurat}}</center></td>
+                                                    <td><center>        
                                                             <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                                                 {{csrf_field()}}
                                                                 
-                                                                <a href="{{ route('admin.keluarfilepdf_ex', [ 'id' => $keluar_ex->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a> |
-
+                                                                <a href="{{ route('admin.keluarfilepdf_ex', [ 'id' => $keluar_ex->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
+                                                                
                                                                 @if($keluar_ex->status == "1")
                                                                 <a href="{{ route('admin.viewpdfsuratseluar_ex', [ 'id' => $keluar_ex->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-book"></i></a>
                                                                 @endif
@@ -277,15 +248,15 @@
 
                                                                 <a href="{{ url('admin/suratkeluar_ex/delete/'. $keluar_ex->id) }}" class="btn btn-simple btn-danger btn-xs " onclick="return confirm('Anda Yakin Akan Menghapus Data Ini ?')" ><i class="fa fa-trash"></i></a>
                                                                 @if($keluar_ex->status != "1")
-                                                                | <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal4"><i class="fa fa-sign-out"></i>
+                                                                <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal4"><i class="fa fa-sign-out"></i>
                                                                 </button>
                                                                 @endif
                                                             </form>
-                                                        </center></td>
-                                                    </tr>
-                                                    @endforeach>
-                                                    </tbody>
-                                                    </table>
+                                                    </center></td>
+                                                </tr>
+                                                @endforeach
+                                                </tbody>
+                                                </table>
                                                    
                                             </div>
                                              <!-- modal upload file -->
@@ -589,6 +560,19 @@
 
      $(document).ready(function(){
                 $('.dataTables-example').DataTable({
+                    pageLength: 10,
+                    responsive: true,
+                    dom: '<"html5buttons"B>lTfgitp',
+                    buttons: [
+                  
+                    ]
+
+                });
+
+            });
+    
+    $(document).ready(function(){
+                $('.dataTables-example2').DataTable({
                     pageLength: 10,
                     responsive: true,
                     dom: '<"html5buttons"B>lTfgitp',

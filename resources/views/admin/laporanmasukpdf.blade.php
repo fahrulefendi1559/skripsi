@@ -56,7 +56,7 @@
     }
   </style>
   <link rel="stylesheet" href="">
-  <title>Laporan Data Buku</title>
+  <title>Laporan Surat Masuk</title>
 </head>
 <body>
 <h1 class="center">LAPORAN DATA SURAT MASUK</h1>

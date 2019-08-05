@@ -25,8 +25,17 @@ class SekreController extends Controller
 
     public function indexHome()
     {
+        $Tahun=DB::table('surat_periode')->orderBy('id_periode', 'DESC')->value('tahun');
+        $Periode=DB::table('surat_periode')->orderBy('id_periode', 'DESC')->value('periode');
+        $countsurat=DB::table('disposisi')
+        ->where('id_role', '2')
+        ->count();
         
-        return view('sekre.home');
+        return view('sekre.home')->with([
+            'Tahun' => $Tahun,
+            'Periode' => $Periode,
+            'countsurat' => $countsurat,
+        ]);
     }
 
     public function suratmasuksekre()

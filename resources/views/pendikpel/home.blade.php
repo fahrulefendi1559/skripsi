@@ -5,11 +5,11 @@
     <div class="col-lg-4">
         <div class="ibox ">
             <div class="ibox-title">
-                <span class="label label-success float-right"></span>
+                <span class="label label-success float-right">{{$Periode}} {{$Tahun}}</span>
                 <h5>Surat Masuk</h5>
             </div>
             <div class="ibox-content">
-                <h1 class="no-margins"> Arsip</h1>
+                <h1 class="no-margins">{{$countsurat}} Arsip</h1>
 
                 <small>Total Surat Masuk</small>
             </div>

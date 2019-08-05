@@ -22,6 +22,24 @@ class SuratMasukController extends Controller
         ]);
     }
 
+    public function cari(Request $request)
+    {
+        $data_surat_keluar  = suratmasuk::orderby('id','DESC')->paginate(10);
+        $suratperiode       = Suratperiode::all();
+        // menangkap data pencarian
+		$cari = $request->cari;
+ 
+        // mengambil data dari table pegawai sesuai pencarian data
+        $filter = DB::table('surat_masuk')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        return view('operator.carisuratmasuk')->with([
+            'filter'            => $filter,
+            'suratperiode'      => $suratperiode,
+        ]);
+    }
+
     public function create_surat_masuk(Request $request){
     	$this->validate($request,[
             'id_periode'   => 'required',	
@@ -31,7 +49,7 @@ class SuratMasukController extends Controller
     		'prihal'       => 'required',
     		'tglsurat'     => 'required',
     		'tglterima'    => 'required',
-    		'namafile'     => 'required',
+    		'namafile'     => 'required | max:3000',
     	]);
 
         $upload = DB::table('surat_masuk')->insert([

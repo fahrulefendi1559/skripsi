@@ -22,8 +22,16 @@ class OperasionalController extends Controller
 
     public function indexHome()
     {
-        
-        return view('operasional.home');
+        $Tahun=DB::table('surat_periode')->orderBy('id_periode', 'DESC')->value('tahun');
+        $Periode=DB::table('surat_periode')->orderBy('id_periode', 'DESC')->value('periode');
+        $countsurat=DB::table('disposisi')
+        ->where('id_role', '4')
+        ->count();
+        return view('operasional.home')->with([
+            'Tahun' => $Tahun,
+            'Periode' => $Periode,
+            'countsurat' => $countsurat,
+        ]);
     }
 
     public function suratmasuksekre()

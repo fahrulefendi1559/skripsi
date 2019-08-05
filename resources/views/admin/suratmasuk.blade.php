@@ -48,7 +48,31 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger col-lg-12">
+                <ul>
+                    @foreach ($errors-> all() as $error)
+                        <li>{{$error}}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="col-lg-12">
+            <div class="row">
+                <div class="col-sm-3 m-b-xs">
+                    <form action="suratmasuk/cari" method="GET">
+                        <!-- get data periode surat -->
+                        <select class="form-control-sm form-control input-s-sm inline" name="cari">
+                            <option disabled selected>Pilih Periode Surat</option>
+                                @foreach ($suratperiode as $periode)      
+                                    <option value="{{ $periode->id_periode }}" autofocus required>Periode {{ $periode->periode}} {{ $periode->tahun }}</option>   
+                                @endforeach
+                        </select>
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary">Go!
+                </form>
+            </div>
         	<div class="ibox ">
             	<div class="ibox-title">
                 	<h5>Data Surat Masuk</h5>
@@ -121,16 +145,6 @@
                                             <small class="font-bold">Sistem Informasi Digitalisasi Arsip Dokumen.</small>
                                     </div>
                                     <div class="modal-body">
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                    @foreach ($errors-> all() as $error)
-                                                        <li>{{$error}}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-
-                                        @endif
                                     	<form role="form" method="POST" action="{{route('admin.createsuratmasuk')}}" enctype="multipart/form-data">
                                     		{{csrf_field()}}  {{method_field('POST')}}
 

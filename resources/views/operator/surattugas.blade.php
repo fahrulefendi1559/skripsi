@@ -49,6 +49,21 @@
         @endif
 
         <div class="col-lg-12">
+
+            <div class="row">
+                <div class="col-sm-3 m-b-xs">
+                    <form action="surattugas/cari" method="GET">
+                        <!-- get data periode surat -->
+                        <select class="form-control-sm form-control input-s-sm inline" name="cari">
+                            <option disabled selected>Pilih Periode Surat</option>
+                                @foreach ($suratperiode as $periode)      
+                                    <option value="{{ $periode->id_periode }}" autofocus required>Periode {{ $periode->periode}} {{ $periode->tahun }}</option>   
+                                @endforeach
+                        </select>
+                </div>
+                <button type="submit" class="btn btn-sm btn-primary">Go!
+                </form>
+            </div>
         	<div class="ibox ">
             	<div class="ibox-title">
                 	<h5>Data Surat Tugas</h5>
@@ -95,7 +110,7 @@
 		                        	<form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                         {{csrf_field()}}
 
-                                        <a href="{{ route('opr.viewpdf', ['id' => $tugas->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
+                                        <a href="{{ route('opr.viewpdftugas', ['id' => $tugas->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
 
                                         <a href="{{url ('operator/surattugas/edit/'. $tugas->id)}}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
