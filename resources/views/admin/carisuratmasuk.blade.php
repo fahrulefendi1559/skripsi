@@ -12,7 +12,7 @@
                     <a>Tables</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong>Data Surat Masuk</strong>
+                    <strong>Data Surat Masuk Internal</strong>
                 </li>
             </ol>
     </div>

@@ -42,5 +42,15 @@
     <?php
       header("Location: evaluasi/home");
       exit;
-    ?>    
+    ?> 
+<?php elseif (Auth::user()->roles_id == 666): ?>
+    <?php
+      header("Location: dpl/home");
+      exit;
+    ?>
+<?php elseif (Auth::user()->roles_id == 777): ?>
+    <?php
+      header("Location: kdpl/home");
+      exit;
+    ?>     
 <?php endif ?>

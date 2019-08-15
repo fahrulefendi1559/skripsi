@@ -38,6 +38,10 @@ class HomeController extends Controller
         ->where('id_periode', $IDPeriode)
         ->count();
 
+        $countsurat_ex=DB::table('surat_masuk_ex')
+        ->where('id_periode', $IDPeriode)
+        ->count();
+
         $countkeluar=DB::table('surat_keluar')
         ->where('id_periode', $IDPeriode)
         ->count();
@@ -71,7 +75,8 @@ class HomeController extends Controller
             'asalsurat'     => $asalsurat,
             'countkeluarex' => $countkeluarex,
             'counttugas'    => $counttugas,
-            'prihal'        => $prihal
+            'prihal'        => $prihal,
+            'countsurat_ex' => $countsurat_ex
     
         ]);
     }
@@ -98,11 +103,12 @@ class HomeController extends Controller
           ]);
 
           
-        // $b=User::all();
+        // $b= User::all();
 
         // if($b->roles_id = 2)
         // {
-        //     $email=User::select('email')->where('roles_id','2');
+        //     $email=DB::table('users')->select('email')->get();
+
         //     $data= array(
         //         'email_body' => "Anda Memiliki File Surat Masuk Terbaru"    
         //     );
@@ -110,8 +116,8 @@ class HomeController extends Controller
         //     // mengirim email ke alamat email kkn
         //     Mail::send('ketua/emailtemplate', $data, function($mail) use ($email){
         //         $mail->to($email, 'no-reply')
-        //         ->subject('Surat Masuk');
-        //         $mail->from('fahrulefendi25@gmail.com','Surat Masuk Baru');
+        //         ->subject('Surat Masuk Internal');
+        //         $mail->from('fahrulefendi25@gmail.com','Surat Masuk Internal Baru');
         //     });
         //  }
 

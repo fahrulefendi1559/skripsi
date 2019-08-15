@@ -30,7 +30,6 @@ class SuratkeluarController extends Controller
     public function getsuratkeluar(Request $req)    
     {
         $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(10);
-        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(10);
         $datakeluar         = Suratkeluar::count();
         $suratperiode       = Suratperiode::all();
         
@@ -40,16 +39,15 @@ class SuratkeluarController extends Controller
     	return view('admin.suratkeluar')->with([
             'data_surat_keluar' => $data_surat_keluar,
             'suratperiode'      => $suratperiode,
-            'cek_keluar'        => $datakeluar,
-        'data_surat_keluar_ex'  => $data_surat_keluar_ex,
-            
+            'cek_keluar'        => $datakeluar,            
         ]);
     }
+
+    
 
     public function cari(Request $request)
     {
         $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(10);
-        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(10);
         $datakeluar         = Suratkeluar::count();
         $suratperiode       = Suratperiode::all();
         // menangkap data pencarian
@@ -60,47 +58,15 @@ class SuratkeluarController extends Controller
         ->where('id_periode','like',"%".$cari."%")
         ->paginate();
 
-        $filterex = DB::table('surat_keluar_ex')
-        ->where('id_periode','like',"%".$cari."%")
-        ->paginate();
-
         return view('admin.suratkeluarin')->with([
-            'filter'            => $filter,
-            'filterex'           => $filterex,
-            'data_surat_keluar' => $data_surat_keluar,
-            'suratperiode'      => $suratperiode,
-            'cek_keluar'        => $datakeluar,
-        'data_surat_keluar_ex'  => $data_surat_keluar_ex,
-        ]);
-    }
-
-    public function cari_ex(Request $request)
-    {
-        $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(10);
-        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(10);
-        $datakeluar         = Suratkeluar::count();
-        $suratperiode       = Suratperiode::all();
-        // menangkap data pencarian
-		$cari = $request->cari;
-        
-        $filter = DB::table('surat_keluar')
-        ->where('id_periode','like',"%".$cari."%")
-        ->paginate();
-
-        // mengambil data dari table pegawai sesuai pencarian data
-        $filterex = DB::table('surat_keluar_ex')
-        ->where('id_periode','like',"%".$cari."%")
-        ->paginate();
-
-        return view('admin.suratkeluarin')->with([
-            'filterex'           => $filterex,
             'filter'            => $filter,
             'data_surat_keluar' => $data_surat_keluar,
             'suratperiode'      => $suratperiode,
             'cek_keluar'        => $datakeluar,
-        'data_surat_keluar_ex'  => $data_surat_keluar_ex,
         ]);
     }
+
+   
 
 
     // fungsi untuk input data surat keluar internal
@@ -129,7 +95,7 @@ class SuratkeluarController extends Controller
         ]);
 
         // data dari email
-        $email="fahrulefendi46@gmail.com";
+        $email="kkn@kpa.unila.ac.id";
         $data= array(
             'email_body' => "Anda Memiliki File Surat Keluar Terbaru"    
         );
@@ -138,7 +104,7 @@ class SuratkeluarController extends Controller
         Mail::send('admin/email_templatekeluarinternal', $data, function($mail) use ($email){
             $mail->to($email, 'no-reply')
             ->subject('Surat Keluar Internal');
-            $mail->from('fahrulefendi25@gmail.com','Surat Keluar Internal');
+            $mail->from('bpkknunila818@gmail.com','Surat Keluar Internal');
         });
 
         return redirect('admin/suratkeluar')->with('sukses','Data Berhasil Diinput');
@@ -263,7 +229,47 @@ class SuratkeluarController extends Controller
 
 
 
-    // awal dari surat keluar external
+
+
+
+    // awal dari surat keluar externalcari
+    public function getsuratkeluar_ex(Request $req)    
+    {
+        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(10);
+        $datakeluar         = Suratkeluar::count();
+        $suratperiode       = Suratperiode::all();
+        
+    	return view('admin.suratkeluar_ex')->with([
+            'suratperiode'      => $suratperiode,
+            'cek_keluar'        => $datakeluar,
+        'data_surat_keluar_ex'  => $data_surat_keluar_ex,
+            
+        ]);
+    }
+
+    public function cari_ex(Request $request)
+    {
+        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(10);
+        $datakeluar         = Suratkeluar::count();
+        $suratperiode       = Suratperiode::all();
+        // menangkap data pencarian
+		$cari = $request->cari;
+        
+
+        // mengambil data dari table pegawai sesuai pencarian data
+        $filterex = DB::table('surat_keluar_ex')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        return view('admin.carisuratkeluarex')->with([
+            'filterex'           => $filterex,
+            'suratperiode'      => $suratperiode,
+            'cek_keluar'        => $datakeluar,
+        'data_surat_keluar_ex'  => $data_surat_keluar_ex,
+        ]);
+    }
+
+
     public function external (Request $request)
     {
         $this->validate($request, [
@@ -288,7 +294,7 @@ class SuratkeluarController extends Controller
         ]);
 
          // data dari email
-         $email="fahrulefendi46@gmail.com";
+         $email="kkn@kpa.unila.ac.id";
          $data= array(
              'email_body' => "Anda Memiliki File Surat Keluar Terbaru"    
          );
@@ -297,10 +303,10 @@ class SuratkeluarController extends Controller
          Mail::send('admin/email_templatekeluarexternal', $data, function($mail) use ($email){
              $mail->to($email, 'no-reply')
              ->subject('Surat Keluar External');
-             $mail->from('fahrulefendi25@gmail.com','Surat Keluar External');
+             $mail->from('bpkknunila818@gmail.com','Surat Keluar External');
          });
 
-        return redirect('admin/suratkeluar')->with('sukses','Data Berhasil Diinput');
+        return redirect('admin/suratkeluar_ex')->with('sukses','Data Berhasil Diinput');
     }
 
     // create file external
@@ -317,7 +323,7 @@ class SuratkeluarController extends Controller
             'id_suratkeluar_ex'=> $request->input('id_keluar_ex'),
             'namafile' => $this->uploadFile_ex($request)
         ]);
-        return redirect('admin/suratkeluar')->with('sukses','Data Berhasil Diinput');    
+        return redirect('admin/suratkeluar_ex')->with('sukses','Data Berhasil Diinput');    
     }
 
     // untuk memberi nama file yang disimpan dan meletakkan direktori penyimpanan
@@ -344,7 +350,7 @@ class SuratkeluarController extends Controller
 
         //delete data pada database
         Suratkeluarex::where('id',$id)->delete();
-        return redirect('admin/suratkeluar')->with('delete','Data Berhasil Dihapus ');
+        return redirect('admin/suratkeluar_ex')->with('delete','Data Berhasil Dihapus ');
 
     }
 
@@ -392,7 +398,7 @@ class SuratkeluarController extends Controller
         $keluar_ex->prihal = $request->prihal;
         $keluar_ex->tglsurat = $request->tglsurat;
         $keluar_ex->save();
-        return redirect()->route('admin.suratkeluar')->with('update', 'Data Berhasil Diudate'
+        return redirect()->route('admin.suratkeluar_ex')->with('update', 'Data Berhasil Diudate'
             );
 
     }

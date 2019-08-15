@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ketua;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\suratmasuk;
+use App\suratmasuk_ex;
 use App\Suratkeluar;
 use App\Suratkeluarex;
 use App\Surattugas;
@@ -15,24 +16,28 @@ use PDF;
 class LaporanController extends Controller
 {
     public function index(){
-    	$laporan            = suratmasuk::all();
+        $laporan            = suratmasuk::all();
+        $lapsuk_ex          = suratmasuk_ex::all();
         $lapkel             = Suratkeluar::all();
         $lapkel_ex          = Suratkeluarex::all();
         $laptug             = Surattugas::all();
         $suratperiode       = Suratperiode::all();
-    	return view('ketua.laporan', compact('laporan','lapkel','suratperiode','lapkel_ex', 'laptug'));
+    	return view('ketua.laporan', compact('laporan','lapsuk_ex','lapkel','suratperiode','lapkel_ex', 'laptug'));
     }
 
     public function cari(Request $request)
     {
-        $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(10);
-        $data_surat_keluar_ex= Suratkeluarex::orderby('id','DESC')->paginate(10);
+        
         $suratperiode       = Suratperiode::all();
         // menangkap data pencarian
 		$cari = $request->cari;
  
         // mengambil data dari table pegawai sesuai pencarian data
         $filtermasuk = DB::table('surat_masuk')
+        ->where('id_periode','like',"%".$cari."%")
+        ->paginate();
+
+        $filtermasuk_ex = DB::table('surat_masuk_ex')
         ->where('id_periode','like',"%".$cari."%")
         ->paginate();
 
@@ -52,10 +57,10 @@ class LaporanController extends Controller
             'filterkeluar'      => $filterkeluar,
             'filterkeluarex'    => $filterkeluarex,
             'filtermasuk'       => $filtermasuk,
+            'filtermasuk_ex'    => $filtermasuk_ex,
             'filtertugas'       => $filtertugas,
-            'data_surat_keluar' => $data_surat_keluar,
             'suratperiode'      => $suratperiode,
-        'data_surat_keluar_ex'  => $data_surat_keluar_ex,
+      
         ]);
     }
 
@@ -64,21 +69,28 @@ class LaporanController extends Controller
         $datas = suratmasuk::all();
         $pdf = PDF::loadView('ketua.laporanmasukpdf', compact('datas'));
         $pdf->setPaper('a4', 'potrait');
-        return $pdf->stream('laporan_suratmasuk_'.date('Y-m-d_H-i-s').'.pdf');
+        return $pdf->stream('laporan_suratmasuk_Internal'.date('Y-m-d_H-i-s').'.pdf');
+    }
+
+    public function masuk_exPdf(){
+        $datas = suratmasuk_ex::all();
+        $pdf = PDF::loadView('ketua.laporanmasuk_expdf', compact('datas'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream('laporan_suratmasuk_External'.date('Y-m-d_H-i-s').'.pdf');
     }
 
      public function keluarPdf(){
-        $datas = suratmasuk::all();
+        $datas = Suratkeluar::all();
         $pdf = PDF::loadView('ketua.laporankeluarpdf', compact('datas'));
         $pdf->setPaper('a4', 'potrait');
-        return $pdf->stream('laporan_suratkeluar_'.date('Y-m-d_H-i-s').'.pdf');
+        return $pdf->stream('laporan_suratkeluar_Internal'.date('Y-m-d_H-i-s').'.pdf');
     }
 
     public function keluarexPdf(){
     	$datas = Suratkeluarex::all();
         $pdf = PDF::loadView('ketua.laporankeluarexpdf', compact('datas'));
         $pdf->setPaper('a4', 'potrait');
-        return $pdf->stream('laporan_suratkeluar_'.date('Y-m-d_H-i-s').'.pdf');
+        return $pdf->stream('laporan_suratkeluar_External'.date('Y-m-d_H-i-s').'.pdf');
     }
 
 

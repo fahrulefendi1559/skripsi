@@ -32,6 +32,10 @@ class HomeController extends Controller
         ->where('id_periode', $IDPeriode)
         ->count();
 
+        $countsurat_ex=DB::table('surat_masuk_ex')
+        ->where('id_periode', $IDPeriode)
+        ->count();
+
         $countkeluar=DB::table('surat_keluar')
         ->where('id_periode', $IDPeriode)
         ->count();
@@ -47,6 +51,7 @@ class HomeController extends Controller
 
     	return view('operator.home')->with([
             'countsurat'    => $countsurat,
+            'countsurat_ex' => $countsurat_ex,
             'countkeluar'   => $countkeluar,
             'countkeluarex' => $countkeluarex,
             'counttugas'    => $counttugas,

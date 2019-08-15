@@ -12,7 +12,7 @@
                     <a>Tables</a>
                 </li>
                 <li class="breadcrumb-item active">
-                    <strong>Data Surat Masuk</strong>
+                    <strong>Data Surat Masuk Internal</strong>
                 </li>
             </ol>
     </div>
@@ -75,7 +75,7 @@
             </div>
         	<div class="ibox ">
             	<div class="ibox-title">
-                	<h5>Data Surat Masuk</h5>
+                	<h5>Data Surat Masuk Internal</h5>
                         <div class="ibox-tools">
                             <a class="collapse-link">
                                 <i class="fa fa-chevron-up"></i>

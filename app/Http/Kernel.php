@@ -66,5 +66,8 @@ class Kernel extends HttpKernel
         'pengembangan' => \App\Http\Middleware\UserPengembangan::class,
         'teknologi' => \App\Http\Middleware\UserTeknologiinformasi::class,
         'evaluasi' => \App\Http\Middleware\UserEvaluasi::class,
+        'dpl' => \App\Http\Middleware\UserDpl::class,
+        'kdpl' => \App\Http\Middleware\UserKdpl::class,
+
     ];
 }

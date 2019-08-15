@@ -96,6 +96,7 @@
 		                    </thead>
 		                    <tbody>
 		                    @foreach($data_user as $user)
+                            @if($user->roles_id != "999")
 		                    <tr >
                                
 		                        <td>{{$user->name}}</td>
@@ -114,8 +115,8 @@
                                         </form>
                                     </center>
                                 </td>
-                               
 		                    </tr>
+                            @endif
 		                   @endforeach
 							</tbody>
 		                    </table>

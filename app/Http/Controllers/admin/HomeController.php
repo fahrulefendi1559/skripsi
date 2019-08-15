@@ -34,6 +34,11 @@ class HomeController extends Controller
         ->where('id_periode', $IDPeriode)
         ->count();
 
+        
+        $countsurat_ex=DB::table('surat_masuk_ex')
+        ->where('id_periode', $IDPeriode)
+        ->count();
+
         $countkeluarex=DB::table('surat_keluar_ex')
         ->where('id_periode', $IDPeriode)
         ->count();
@@ -50,6 +55,7 @@ class HomeController extends Controller
 
             'Tahun'         =>$Tahun,
             'countsurat'    =>$countsurat,
+            'countsurat_ex' =>$countsurat_ex,
             'counttugas'    =>$counttugas,
             'countkeluar'   =>$countkeluar,
             'countkeluarex' =>$countkeluarex,

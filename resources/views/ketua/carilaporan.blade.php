@@ -39,18 +39,21 @@
                     <div class="tabs-container">
                         <ul class="nav nav-tabs" role="tablist">
                             <li>
-                                <a class="nav-link active" data-toggle="tab" href="#tab-1"> Surat Masuk</a>
+                                <a class="nav-link active" data-toggle="tab" href="#tab-1"> Surat Masuk Internal</a>
                             </li>
                             <li>
-                                <a class="nav-link" data-toggle="tab" href="#tab-2">Surat Keluar Internal</a>
+                                <a class="nav-link " data-toggle="tab" href="#tab-2"> Surat Masuk External</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" data-toggle="tab" href="#tab-3">Surat Keluar Internal</a>
                             </li>
 
                             <li>
-                                <a class="nav-link" data-toggle="tab" href="#tab-3">Surat Kelluar External</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-4">Surat Kelluar External</a>
                             </li>
 
                             <li>
-                                <a class="nav-link" data-toggle="tab" href="#tab-4">Surat Tugas</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-5">Surat Tugas</a>
                             </li>
                         </ul>
                         <!-- ini bagian untuk tab surat masuk -->
@@ -95,6 +98,47 @@
 
                             <div role="tabpanel" id="tab-2" class="tab-pane">
                                 <div class="panel-body">
+                                    <!-- laporan surat keluar -->
+                                    <div class="col-md-2 pull-left">
+                                        <a href="{{ route('ketua.masukpdf_ex') }}" class="btn btn-primary btn-rounded btn-fw" target="blank"><b><i class="fa fa-download"></i> Cetak PDF</a></b>
+                                     </div>
+                                    <br> <br>
+
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover dataTables-example" >
+                                            <thead>
+                                            <tr>
+                                                <th>Nomor Surat</th>
+                                                <th>Pengirim</th>
+                                                <th>Penerima</th>
+                                                <th>Prihal</th>
+                                                <th>Tgl Surat</th>
+                                                <th>Tgl Terima</th>
+
+                                            </tr>
+                                            </thead>
+                                        <tbody>
+                                        @foreach($filtermasuk_ex as $laporankeluar)
+                                        <tr >
+                                            <td>{{$laporankeluar->nomorsurat}}</td>
+                                            <td>{{$laporankeluar->pengirim}}</td>
+                                            <td>{{$laporankeluar->penerima}}</td>
+                                            <td>{{$laporankeluar->prihal}}</td>
+                                            <td>{{$laporankeluar->tglsurat}}</td>
+                                            <td>{{$laporankeluar->tglterima}}</td>
+
+                                        @endforeach
+                                        </tr>
+                                     
+                                        </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" id="tab-3" class="tab-pane">
+                                <div class="panel-body">
                                    <!-- laporan surat keluar -->
                                    <div class="col-md-2 pull-left">
                                         <a href="{{ url('ketua/laporan/suratkeluar/') }}" class="btn btn-primary btn-rounded btn-fw" target="blank"><b><i class="fa fa-download"></i> Cetak PDF</a></b>
@@ -129,12 +173,13 @@
                                 </div>
                             </div>
 
-                            <div role="tabpanel" id="tab-3" class="tab-pane">
+                            <div role="tabpanel" id="tab-4" class="tab-pane">
                                 <div class="panel-body">
                                     <div class="col-md-2 pull-left">
                                         <a href="{{ url('ketua/laporan/suratkeluar_ex/') }}" class="btn btn-primary btn-rounded btn-fw" target="blank"><b><i class="fa fa-download"></i> Cetak PDF</a></b>
                                      </div>
                                     <br> <br>
+
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered table-hover dataTables-example" >
                                             <thead>
@@ -144,7 +189,6 @@
                                                 <th>Penerima</th>
                                                 <th>Prihal</th>
                                                 <th>Tgl Surat</th>
-                                                <th>Tgl Terima</th>
                                             </tr>
                                             </thead>
                                         <tbody>
@@ -166,12 +210,13 @@
                                 </div>
                             </div>
 
-                            <div role="tabpanel" id="tab-4" class="tab-pane">
+                            <div role="tabpanel" id="tab-5" class="tab-pane">
                                 <div class="panel-body">
                                     <div class="col-md-2 pull-left">
                                         <a href="{{ url('ketua/laporan/surattugas/') }}" class="btn btn-primary btn-rounded btn-fw" target="blank"><b><i class="fa fa-download"></i> Cetak PDF</a></b>
                                      </div>
                                     <br> <br>
+
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered table-hover dataTables-example" >
                                             <thead>

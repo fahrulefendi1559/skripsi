@@ -36,18 +36,23 @@
                     <div class="tabs-container">
                         <ul class="nav nav-tabs" role="tablist">
                             <li>
-                                <a class="nav-link active" data-toggle="tab" href="#tab-1"> Surat Masuk</a>
+                                <a class="nav-link active" data-toggle="tab" href="#tab-1"> Surat Masuk Internal</a>
                             </li>
                             <li>
-                                <a class="nav-link" data-toggle="tab" href="#tab-2">Surat Keluar internal</a>
-                            </li>
-
-                            <li>
-                                <a class="nav-link" data-toggle="tab" href="#tab-3">Surat Kelluar External</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-2">Surat Masuk External</a>
                             </li>
 
                             <li>
-                                <a class="nav-link" data-toggle="tab" href="#tab-4">Surat Tugas</a>
+                                <a class="nav-link" data-toggle="tab" href="#tab-3">Surat Keluar internal</a>
+                            </li>
+
+
+                            <li>
+                                <a class="nav-link" data-toggle="tab" href="#tab-4">Surat Kelluar External</a>
+                            </li>
+
+                            <li>
+                                <a class="nav-link" data-toggle="tab" href="#tab-5">Surat Tugas</a>
                             </li>
 
                         </ul>
@@ -97,6 +102,42 @@
                                                 <th>Penerima</th>
                                                 <th>Prihal</th>
                                                 <th>Tgl Surat</th>
+                                                <th>Tgl Terima</th>
+
+                                            </tr>
+                                            </thead>
+                                        <tbody>
+                                        @foreach($lapsuk_ex as $laporankeluar)
+                                        <tr >
+                                            <td>{{$laporankeluar->nomorsurat}}</td>
+                                            <td>{{$laporankeluar->pengirim}}</td>
+                                            <td>{{$laporankeluar->penerima}}</td>
+                                            <td>{{$laporankeluar->prihal}}</td>
+                                            <td>{{$laporankeluar->tglsurat}}</td>
+                                            <td>{{$laporankeluar->tglterima}}</td>
+
+                                        @endforeach
+                                        </tr>
+                                     
+                                        </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div role="tabpanel" id="tab-3" class="tab-pane">
+                                <div class="panel-body">
+                                    <!-- laporan surat keluar -->
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-hover dataTables-example" >
+                                            <thead>
+                                            <tr>
+                                                <th>Nomor Surat</th>
+                                                <th>Pengirim</th>
+                                                <th>Penerima</th>
+                                                <th>Prihal</th>
+                                                <th>Tgl Surat</th>
                                             </tr>
                                             </thead>
                                         <tbody>
@@ -117,7 +158,7 @@
                                 </div>
                             </div>
 
-                            <div role="tabpanel" id="tab-3" class="tab-pane">
+                            <div role="tabpanel" id="tab-4" class="tab-pane">
                                 <div class="panel-body">
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered table-hover dataTables-example" >
@@ -150,7 +191,7 @@
                                 </div>
                             </div>
 
-                            <div role="tabpanel" id="tab-4" class="tab-pane">
+                            <div role="tabpanel" id="tab-5" class="tab-pane">
                                 <div class="panel-body">
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered table-hover dataTables-example" >

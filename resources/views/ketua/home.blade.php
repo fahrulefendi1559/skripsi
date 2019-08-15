@@ -7,15 +7,30 @@
         <div class="ibox ">
             <div class="ibox-title">
                 <span class="label label-success float-right">{{ $Periode }} {{ $Tahun }}</span>
-                <h5>Surat Masuk</h5>
+                <h5>Surat Masuk Internal</h5>
             </div>
             <div class="ibox-content">
                 <h1 class="no-margins">{{$countsurat}} Arsip</h1>
 
-                <small>Total Surat Masuk</small>
+                <small>Total Surat Masuk Internal</small>
             </div>
         </div>
     </div>
+
+    <div class="col-lg-4">
+        <div class="ibox ">
+            <div class="ibox-title">
+                <span class="label label-success float-right">{{ $Periode }} {{ $Tahun }}</span>
+                <h5>Surat Masuk External</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">{{$countsurat_ex}} Arsip</h1>
+
+                <small>Total Surat Masuk External</small>
+            </div>
+        </div>
+    </div>
+
 
     <div class="col-lg-4">
         <div class="ibox ">

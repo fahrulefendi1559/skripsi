@@ -25,17 +25,38 @@
             <li>
                 <a href="#"><i class="fa fa-envelope-open-o"></i> <span class="nav-label">Manajemen Surat</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="{{route('admin.suratmasuk')}}">Surat Masuk</a></li>         
-                        <li><a href="{{route('admin.suratkeluar')}}">Surat Keluar</a></li>
+                        <li>
+                        <a href="#"><i class="fa fa-envelope-open-o"></i> <span class="nav-label">Surat Internal</span> <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="{{route('admin.suratmasuk')}}">Surat Masuk</a>
+                                </li>
+
+                                <li>
+                                    <a href="{{route('admin.suratkeluar')}}">Surat Keluar</a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="#"><i class="fa fa-envelope-open-o"></i> <span class="nav-label">Surat External</span> <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="{{route('admin.suratmasuk_ex')}}">Surat Masuk</a>
+                                </li>
+
+                                <li>
+                                    <a href="{{route('admin.suratkeluar_ex')}}">Surat Keluar</a>
+                                </li>
+                            </ul>
+                        </li>
+
                         <li><a href="{{route('admin.getsurattugas')}}">Surat Tugas</a></li>
                     </ul>
             </li>
-
-
             <li>
                 <a href="{{ route('admin.kelolatanggal') }}"><i class="fa fa-calendar"></i><span class="nav-label">Kelola Periode Surat</span></a>
             </li>
-
             <li>
                 <a href="{{ route('admin.laporan') }}"><i class="fa fa-book"></i> <span class="nav-label">Laporan</span></a>
             </li>
@@ -56,8 +77,33 @@
             <li>
                 <a href="#"><i class="fa fa-envelope-open-o"></i> <span class="nav-label">Manajemen Surat</span> <span class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="{{route('opr.getsuratmasuk')}}">Surat Masuk</a></li>         
-                        <li><a href="{{ route('opr.suratkeluar') }}">Surat Keluar</a></li>
+                        <li>
+                            <a href="#"><i class="fa fa-envelope-open-o"></i> <span class="nav-label">Surat Internal </span> <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="{{route('opr.getsuratmasuk')}}">Surat Masuk</a>
+                                </li>
+
+                                <li>
+                                    <a href="{{ route('opr.suratkeluar') }}">Surat Keluar</a>
+                                </li>
+                            </ul>
+                        
+                        </li> 
+
+                        <li>
+                            <a href="#"><i class="fa fa-envelope-open-o"></i> <span class="nav-label">Surat External </span> <span class="fa arrow"></span></a>
+                            <ul class="nav nav-third-level">
+                                <li>
+                                    <a href="{{route('opr.getsuratmasuk_ex')}}">Surat Masuk</a>
+                                </li>
+
+                                <li>
+                                    <a href="{{route('opr.suratkeluar_ex')}}">Surat Keluar</a>
+                                </li>
+                            </ul>
+                        </li>
+
                         <li><a href="{{route('operator.tugas')}}">Surat Tugas</a></li>
                     </ul>
             </li>
@@ -126,6 +172,22 @@
             </li>
             <li>
                 <a href="{{route('evaluasi.lihatsurat')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Masuk</span></a>
+            </li>
+
+            @elseif(Auth::user()->roles_id == 666)
+            <li>
+                <a href="{{route('dpl.home')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboards</span></a>
+            </li>
+            <li>
+                <a href="{{route('dpl.lihatsuratdpl')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Tugas</span></a>
+            </li>
+
+            @elseif(Auth::user()->roles_id == 777)
+            <li>
+                <a href="{{route('kdpl.home')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboards</span></a>
+            </li>
+            <li>
+                <a href="{{route('kdpl.lihatsuratkdpl')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Tugas</span></a>
             </li>
             @endif
 

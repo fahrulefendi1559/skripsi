@@ -18,7 +18,10 @@ use Storage;
 class SurattugasController extends Controller
 {
     public function getsurattugas(){
-        $surat_tugas    = Surattugas::orderBy('id','DESC')->paginate(10);
+        $surat_tugas    =  DB::table('surat_tugas')
+        ->join('jenis_tugas', 'surat_tugas.id_tugas', '=', 'jenis_tugas.id_jenis_tugas')
+        ->select('surat_tugas.*','jenis_tugas.nama_tugas')
+        ->get(); 
         $suratperiode   = Suratperiode::all();
         $jenis_tugas    = Jenistugas::all();
 
@@ -79,7 +82,7 @@ class SurattugasController extends Controller
         ]);
 
         // data dari email
-        $email="fahrulefendi46@gmail.com";
+        $email="kkn@kpa.unila.ac.id";
         $data= array(
             'email_body' => "Anda Memiliki File Surat Tugas Terbaru"    
         );
@@ -88,7 +91,7 @@ class SurattugasController extends Controller
         Mail::send('admin/emailtugas', $data, function($mail) use ($email){
             $mail->to($email, 'no-reply')
             ->subject('Surat Tugas');
-            $mail->from('fahrulefendi25@gmail.com','Surat Tugas Baru');
+            $mail->from('bpkknunila818@gmail.com','Surat Tugas Baru');
         });
 
         

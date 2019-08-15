@@ -25,7 +25,6 @@ class UsersController extends Controller
         ->select('users.*', 'roles.namarole')
         ->get(); 
 
-
     	$role = Role::all();
     	return view('admin.daftaruser')->with([
     		'data_user'=>$data_user,
