@@ -8,6 +8,6 @@
 </head>
 <body>
     <p>{{$email_body}}</p>
-    <a href="localhost/skripsi/public">Silahkan Login ke Halaman Berikut</a>
+    <a href="https://kkn.unila.ac.id/e-surat/public/">Silahkan Login ke Halaman Berikut</a>
 </body>
 </html>

@@ -47,8 +47,6 @@ class SuratkeluarController extends Controller
 
     public function cari(Request $request)
     {
-        $data_surat_keluar  = Suratkeluar::orderby('id','DESC')->paginate(10);
-        $datakeluar         = Suratkeluar::count();
         $suratperiode       = Suratperiode::all();
         // menangkap data pencarian
 		$cari = $request->cari;
@@ -59,10 +57,9 @@ class SuratkeluarController extends Controller
         ->paginate();
 
         return view('admin.suratkeluarin')->with([
-            'filter'            => $filter,
-            'data_surat_keluar' => $data_surat_keluar,
+            'filter'            => $filter,      
             'suratperiode'      => $suratperiode,
-            'cek_keluar'        => $datakeluar,
+
         ]);
     }
 
@@ -92,20 +89,21 @@ class SuratkeluarController extends Controller
             'prihal'        => $request->input('prihal'),
             'lampiran'      => $request->input('lampiran'),
             'tglsurat'      => $request->input('tglsurat'),
+            'namafile'      => $this->uploadFile($request)
         ]);
 
-        // data dari email
-        $email="kkn@kpa.unila.ac.id";
-        $data= array(
-            'email_body' => "Anda Memiliki File Surat Keluar Terbaru"    
-        );
+        // // data dari email
+        // $email="kkn@kpa.unila.ac.id";
+        // $data= array(
+        //     'email_body' => "Anda Memiliki File Surat Keluar Terbaru"    
+        // );
 
-        // mengirim email ke alamat email kkn
-        Mail::send('admin/email_templatekeluarinternal', $data, function($mail) use ($email){
-            $mail->to($email, 'no-reply')
-            ->subject('Surat Keluar Internal');
-            $mail->from('bpkknunila818@gmail.com','Surat Keluar Internal');
-        });
+        // // mengirim email ke alamat email kkn
+        // Mail::send('admin/email_templatekeluarinternal', $data, function($mail) use ($email){
+        //     $mail->to($email, 'no-reply')
+        //     ->subject('Surat Keluar Internal');
+        //     $mail->from('bpkknunila818@gmail.com','Surat Keluar Internal');
+        // });
 
         return redirect('admin/suratkeluar')->with('sukses','Data Berhasil Diinput');
     }
@@ -136,24 +134,24 @@ class SuratkeluarController extends Controller
 
     }
 
-    // fungsi untuk menyimpan nama file kedalam database
-    public function createfile(Request $request)
-    {
-        $this->validate($request, [
-            'namafile'   => 'required | max:3000'
-        ]);
-        // query untuk update data status surat keluar
-        DB::table('surat_keluar')->update([
-            'status'        => '1'
-        ]);
+    // // fungsi untuk menyimpan nama file kedalam database
+    // public function createfile(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'namafile'   => 'required | max:3000'
+    //     ]);
+    //     // query untuk update data status surat keluar
+    //     DB::table('surat_keluar')->update([
+    //         'status'        => '1'
+    //     ]);
         
-        // variabel file digunakan untuk menampung data dari file dan kemudian akan memanggil fungsi upload file
-        $file= DB::table('filekeluar')->insert([
-            'id_suratkeluar'=> $request->input('id_keluar'),
-            'namafile' => $this->uploadFile($request)
-        ]);
-        return redirect('admin/suratkeluar')->with('sukses','Data Berhasil Diinput');    
-    }
+    //     // variabel file digunakan untuk menampung data dari file dan kemudian akan memanggil fungsi upload file
+    //     $file= DB::table('filekeluar')->insert([
+    //         'id_suratkeluar'=> $request->input('id_keluar'),
+    //         'namafile' => $this->uploadFile($request)
+    //     ]);
+    //     return redirect('admin/suratkeluar')->with('sukses','Data Berhasil Diinput');    
+    // }
 
     // fungsi upload file digunakan untuk upload file kedalam storage/app/suratkeluar
     protected function uploadFile($request)
@@ -190,7 +188,7 @@ class SuratkeluarController extends Controller
     public function destroy($id)
     {
         //delete file dalam path
-        $file = Filekeluar::where('id_suratkeluar', $id)->pluck('namafile')->all();
+        $file = Suratkeluar::where('id', $id)->pluck('namafile')->all();
         Storage::delete($file);
 
         //delete data pada database
@@ -202,7 +200,7 @@ class SuratkeluarController extends Controller
     // fungsi untuk melihat file yang tersimpan ke dalam path storage/app/suratkeluar
     public function viewpdf($id)
     {
-        $file = Filekeluar::where('id_suratkeluar', $id)->pluck('namafile')->first();
+        $file = Suratkeluar::where('id', $id)->pluck('namafile')->first();
         // $filename = $request->namafile;
         $path = storage_path('app/'.$file);
 
@@ -291,40 +289,41 @@ class SuratkeluarController extends Controller
             'prihal'        => $request->input('prihal'),
             'lampiran'      => $request->input('lampiran'),
             'tglsurat'      => $request->input('tglsurat'),
+            'namafile'      => $this->uploadFile_ex($request)
         ]);
 
-         // data dari email
-         $email="kkn@kpa.unila.ac.id";
-         $data= array(
-             'email_body' => "Anda Memiliki File Surat Keluar Terbaru"    
-         );
+        //  // data dari email
+        //  $email="kkn@kpa.unila.ac.id";
+        //  $data= array(
+        //      'email_body' => "Anda Memiliki File Surat Keluar Terbaru"    
+        //  );
  
-         // mengirim email ke alamat email kkn
-         Mail::send('admin/email_templatekeluarexternal', $data, function($mail) use ($email){
-             $mail->to($email, 'no-reply')
-             ->subject('Surat Keluar External');
-             $mail->from('bpkknunila818@gmail.com','Surat Keluar External');
-         });
+        //  // mengirim email ke alamat email kkn
+        //  Mail::send('admin/email_templatekeluarexternal', $data, function($mail) use ($email){
+        //      $mail->to($email, 'no-reply')
+        //      ->subject('Surat Keluar External');
+        //      $mail->from('bpkknunila818@gmail.com','Surat Keluar External');
+        //  });
 
         return redirect('admin/suratkeluar_ex')->with('sukses','Data Berhasil Diinput');
     }
 
-    // create file external
-    public function createfile_ex(Request $request)
-    {
-        $this->validate($request, [
-            'namafile'   => 'required | max:3000'
-        ]);
-        DB::table('surat_keluar_ex')->update([
-            'status'        => '1'
-        ]);
+    // // create file external
+    // public function createfile_ex(Request $request)
+    // {
+    //     $this->validate($request, [
+    //         'namafile'   => 'required | max:3000'
+    //     ]);
+    //     DB::table('surat_keluar_ex')->update([
+    //         'status'        => '1'
+    //     ]);
         
-        $file= DB::table('filekeluar_ex')->insert([
-            'id_suratkeluar_ex'=> $request->input('id_keluar_ex'),
-            'namafile' => $this->uploadFile_ex($request)
-        ]);
-        return redirect('admin/suratkeluar_ex')->with('sukses','Data Berhasil Diinput');    
-    }
+    //     $file= DB::table('filekeluar_ex')->insert([
+    //         'id_suratkeluar_ex'=> $request->input('id_keluar_ex'),
+    //         'namafile' => $this->uploadFile_ex($request)
+    //     ]);
+    //     return redirect('admin/suratkeluar_ex')->with('sukses','Data Berhasil Diinput');    
+    // }
 
     // untuk memberi nama file yang disimpan dan meletakkan direktori penyimpanan
     protected function uploadFile_ex($request)
@@ -345,7 +344,7 @@ class SuratkeluarController extends Controller
     public function destroy_ex($id)
     {
         //delete file dalam path
-        $file = Filekeluarex::where('id_suratkeluar_ex', $id)->pluck('namafile')->all();
+        $file = Suratkeluarex::where('id', $id)->pluck('namafile')->all();
         Storage::delete($file);
 
         //delete data pada database
@@ -357,7 +356,7 @@ class SuratkeluarController extends Controller
     // view pdf external
     public function viewpdf_ex($id)
     {
-        $file = Filekeluarex::where('id_suratkeluar_ex', $id)->pluck('namafile')->first();
+        $file = Suratkeluarex::where('id', $id)->pluck('namafile')->first();
         $path = storage_path('app/'.$file);
 
         return response()->file($path);

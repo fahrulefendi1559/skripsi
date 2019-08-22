@@ -102,7 +102,7 @@
                                                         <th><center>Pengirim</center></th>
                                                         <th><center>Penerima</center></th>
                                                         <th><center>Prihal</center></th>
-                                                        <th ><center>Aksi</center></th>
+                                                        <th width="14%"><center>Aksi</center></th>
                                                     </tr>
                                                     </thead>
                                                 <tbody>
@@ -117,20 +117,12 @@
                                                         <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                                             {{csrf_field()}}
                                                             
-                                                            <a href="{{ route('admin.keluarfilepdf', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
-
-                                                            @if($keluar->status == "1")
                                                             <a href="{{ route('admin.viewpdfsuratseluar', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-book"></i></a>
-                                                            @endif
-                
+                                                            
                                                             <a href="{{url('admin/suratkeluar/edit/'. $keluar->id) }}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
                                                             <a href="{{ url('admin/suratkeluar/delete/'. $keluar->id) }}" class="btn btn-simple btn-danger btn-xs " onclick="return confirm('Anda Yakin Akan Menghapus Data Ini ?')" ><i class="fa fa-trash"></i></a>
 
-                                                            @if($keluar->status != "1")
-                                                            <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-out"></i>
-                                                            </button>
-                                                            @endif
                                                         </form>
                                                     </center></td>
                                                 </tr>
@@ -276,7 +268,12 @@
                                                     <input type="text"  class="form-control datepicker1" name="tglsurat" autofocus required>
                                                             <span class="help-block with-errors"></span>
                                                 </div>                                      
-                                        
+
+                                                <div class="form-group">
+                                                    <label>File</label> 
+                                                    <input type="file" name="namafile" autofocus required>
+                                                    <span class="help-block with-errors"></span>
+		                                        </div>  
 
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>

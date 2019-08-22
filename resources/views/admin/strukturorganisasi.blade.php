@@ -26,6 +26,8 @@
             <strong>Sukses !</strong>    {{session('update')}}
             </div>
         @endif
+
+       
         <!-- akhir dari alert -->
 
         <!-- AWAL DARI UKURAN KANVAS -->
@@ -59,19 +61,21 @@
                                                     </tr>
                                                     </thead>
                                                 <tbody>
-                                                @foreach($struktur as $struk)
+                                                @foreach($data as $struk)
+                                                @if($struk->roles_id != "999" && $struk->roles_id != "888" && $struk->roles_id != "777" && $struk->roles_id != "666")
                                                 <tr >
-                                                    <td><center>{{ $struk->nama}}</center></td>
-                                                    <td><center>{{ $struk->nip}}</center></td>
-                                                    <td><center>{{ $struk->nama_struktur}}</center></td>
+                                                    <td><center>{{ $struk->name}}</center></td>
+                                                    <td><center>{{ $struk->username}}</center></td>
+                                                    <td><center>{{ $struk->namarole}}</center></td>
                                                     <td><center>
                                                         
                                                         <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                                             {{csrf_field()}}
-                                                            <a href="{{url ('admin/strukturorganisasi/edit/'. $struk->id_detail_struktur)}}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
+                                                            <a href="{{url ('admin/struktur/edit/'. $struk->id)}}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
                                                         </form>
                                                     </center></td>
                                                 </tr>
+                                                @endif 
                                                 @endforeach   
                                                 </tbody>
                                                 </table>

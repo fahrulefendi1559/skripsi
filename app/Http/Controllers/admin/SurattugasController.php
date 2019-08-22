@@ -45,6 +45,8 @@ class SurattugasController extends Controller
  
         // mengambil data dari table pegawai sesuai pencarian data
         $filter = DB::table('surat_tugas')
+        ->join('jenis_tugas', 'surat_tugas.id_tugas', '=', 'jenis_tugas.id_jenis_tugas')
+        ->select('surat_tugas.*','jenis_tugas.nama_tugas')
         ->where('id_periode','like',"%".$cari."%")
         ->paginate();
 
@@ -82,17 +84,17 @@ class SurattugasController extends Controller
         ]);
 
         // data dari email
-        $email="kkn@kpa.unila.ac.id";
-        $data= array(
-            'email_body' => "Anda Memiliki File Surat Tugas Terbaru"    
-        );
+        // $email="kkn@kpa.unila.ac.id";
+        // $data= array(
+        //     'email_body' => "Anda Memiliki File Surat Tugas Terbaru"    
+        // );
 
-        // mengirim email ke alamat email kkn
-        Mail::send('admin/emailtugas', $data, function($mail) use ($email){
-            $mail->to($email, 'no-reply')
-            ->subject('Surat Tugas');
-            $mail->from('bpkknunila818@gmail.com','Surat Tugas Baru');
-        });
+        // // mengirim email ke alamat email kkn
+        // Mail::send('admin/emailtugas', $data, function($mail) use ($email){
+        //     $mail->to($email, 'no-reply')
+        //     ->subject('Surat Tugas');
+        //     $mail->from('bpkknunila818@gmail.com','Surat Tugas Baru');
+        // });
 
         
         return redirect('admin/surattugas')->with('sukses','Data Berhasil Diinput');

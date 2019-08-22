@@ -4,13 +4,26 @@
     <!-- foto user -->
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <img alt="image" class="rounded-circle" src="{{ asset('asset/img/profile_small.jpg')}}"/>
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+
+                    <img alt="image" class="rounded-circle" height="50" width="50" src="{{ asset('asset/img/Logo_UnivLampung.png')}}"/>
+                        <!-- <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="block m-t-xs font-bold">{{Auth::user()->name}}</span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a class="dropdown-item" href="login.html">Change Password</a></li>
+                        </ul> -->
+
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">{{Auth::user()->name}}</strong>
+                        </span> <span class="text-muted text-xs block">Option <b class="caret"></b></span> </span> </a>
+
+                        @if(Auth::user()->roles_id == 999 || Auth::user()->roles_id == 888 || Auth::user()->roles_id == 1 || Auth::user()->roles_id == 2 || Auth::user()->roles_id == 3 || Auth::user()->roles_id == 4 || Auth::user()->roles_id == 5 || Auth::user()->roles_id == 6 || Auth::user()->roles_id == 7 || Auth::user()->roles_id == 8 || Auth::user()->roles_id == 9)
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a data-toggle="modal" data-target="#gantiPassword">Change Password</a></li>
                         </ul>
+                        @endif
+
+
                 </div>
                 <div class="logo-element">
                 SIDAS+
@@ -174,6 +187,22 @@
                 <a href="{{route('evaluasi.lihatsurat')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Masuk</span></a>
             </li>
 
+            @elseif(Auth::user()->roles_id == 8)
+            <li>
+                <a href="{{route('sekretaris.home')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboards</span></a>
+            </li>
+            <li>
+                <a href="{{route('sekretaris.lihatsuratsekretaris')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Masuk</span></a>
+            </li>
+
+            @elseif(Auth::user()->roles_id == 9)
+            <li>
+                <a href="{{route('bendahara.home')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboards</span></a>
+            </li>
+            <li>
+                <a href="{{route('bendahara.lihatsuratbendahara')}}"><i class="fa fa-book"></i><span class="nav-label">Surat Masuk</span></a>
+            </li>
+
             @elseif(Auth::user()->roles_id == 666)
             <li>
                 <a href="{{route('dpl.home')}}"><i class="fa fa-dashboard"></i> <span class="nav-label">Dashboards</span></a>
@@ -196,3 +225,37 @@
 
     </div>
 </nav>
+
+<!-- Modal Ganti Password -->
+<div class="modal inmodal" id="gantiPassword" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" >
+      <div class="modal-content">
+        <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+        </button>
+          <h4 class="modal-title" id="noteModalLabel">Ganti Password</h4>
+        </div>
+
+        <form class="form-horizontal" action="{{route('gantipassword')}}" method="post">
+          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          <br>
+
+          
+            <div class="form-group col-lg-12">
+                <label>Password</label> 
+		            <input type="password" placeholder="Password Baru Anda" class="form-control" name="pw1">
+		    </div>
+
+            <div class="form-group col-lg-12">
+                <label>Password</label> 
+		            <input type="password" placeholder="Ulangi Password Baru Anda" class="form-control" name="pw2">
+		    </div>
+
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-default">Submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

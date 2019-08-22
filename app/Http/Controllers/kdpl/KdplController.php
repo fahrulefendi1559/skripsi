@@ -47,6 +47,8 @@ class KdplController extends Controller
  
         // mengambil data dari table pegawai sesuai pencarian data
         $filter = DB::table('surat_tugas')
+        ->join('jenis_tugas', 'surat_tugas.id_tugas', '=', 'jenis_tugas.id_jenis_tugas')
+        ->select('surat_tugas.*','jenis_tugas.nama_tugas')
         ->where('id_periode','like',"%".$cari."%")
         ->paginate();
 
@@ -58,7 +60,10 @@ class KdplController extends Controller
 
     public function surattugaskdpl()
     {
-        $surat_tugas = Surattugas::all();
+        $surat_tugas = DB::table('surat_tugas')
+        ->join('jenis_tugas', 'surat_tugas.id_tugas', '=', 'jenis_tugas.id_jenis_tugas')
+        ->select('surat_tugas.*','jenis_tugas.nama_tugas')
+        ->get(); 
         $suratperiode   = Suratperiode::all();
         return view('kdpl.surattugas')->with([
             'surat_tugas'   => $surat_tugas,

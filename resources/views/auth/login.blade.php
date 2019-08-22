@@ -4,6 +4,25 @@
     <title>Login SIDAS</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="{{ asset('asset/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('asset/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
+    <link href="{{ asset('asset/css/animate.css')}}" rel="stylesheet">
+    <link href="{{ asset('asset/css/style.css')}}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{asset('asset/jquery-ui/jquery-ui.css')}}">
+    <script src="{{ asset('asset/js/jquery-3.1.1.min.js')}}"></script>
+    <script src="{{ asset('asset/js/popper.min.js')}}"></script>
+    <script src="{{ asset('asset/js/bootstrap.js')}}"></script>
+    <script src="{{ asset('asset/js/plugins/metisMenu/jquery.metisMenu.js')}}"></script>
+    <script src="{{ asset('asset/js/plugins/slimscroll/jquery.slimscroll.min.js')}}"></script>
+    <script src="{{asset('asset/jquery-ui/jquery-ui.js')}}"></script>
+    
+    <script src="{{ asset('asset/js/inspinia.js')}}"></script>
+    <script src="{{ asset('asset/js/plugins/pace/pace.min.js')}}"></script>
+    
+    <script type="text/javascript" src="{{asset('asset/js/app.js')}}"></script>
+    <script src="{{asset('asset/js/plugins/iCheck/icheck.min.js')}}"></script>
+
 <!--===============================================================================================-->  
     <link rel="icon" type="image/png" href="{{asset('loginstyle/images/icons/favicon.ico')}}"/>
 <!--===============================================================================================-->
@@ -61,7 +80,9 @@
                     </div>
                     
                     <div class="text-right p-t-8 p-b-31">
-                        <a class="btn btn-link" href="{{ route('password.request') }}">Forgot Your Password?</a>
+                        <div class="title-action">
+                            <a  href="" data-toggle="modal" data-target="#myModal2" onclick="addForm()">Need Help ?</a>
+                        </div>
                     </div>
                     
                     <div class="container-login100-form-btn">
@@ -74,11 +95,52 @@
                     </div>
                 </form>
             </div>
+            <div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog ">
+                                <div class="modal-content animated flipInY">
+
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">
+                                            <span aria-hidden="true">&times;</span>
+                                            <span class="sr-only">Close</span>
+                                        </button>
+                                        <h4 class="modal-title"></h4>
+                                            <small class="font-bold">Password/Token bermasalah silahkan hubungi Staff BP-KKN
+                                            </small>
+                                    </div>
+                                    
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+
+                                    </div>
+                            </div>
+                        </div>
         </div>
     </div>
     
 
     <div id="dropDownSelect1"></div>
+
+<script type="text/javascript">
+    //date picker tgl terima
+    $(function(){
+    $(".datepicker").datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true,
+    });
+    });
+
+
+    //modalscript
+    function addForm(){
+        save_method = "add";
+        $('input[name=_method]').val('POST'); 
+        $('#myModal2 form')[0].reset();
+        $('.modal-title').text('Input Data Surat Masuk');
+    }
+</script>
+
     
 <!--===============================================================================================-->
     <script src="{{asset('loginstyle/vendor/jquery/jquery-3.2.1.min.js')}}"></script>
@@ -96,6 +158,39 @@
     <script src="{{asset('loginstyle/vendor/countdowntime/countdowntime.js')}}"></script>
 <!--===============================================================================================-->
     <script src="{{asset('loginstyle/js/main.js')}}"></script>
+
+    
+    <!-- Peity -->
+    <script src="{{ asset('asset/js/plugins/peity/jquery.peity.min.js')}}"></script>
+    <script src="{{ asset('asset/js/demo/peity-demo.js')}}"></script>
+
+    <!-- Custom and plugin javascript -->
+   
+
+    <!-- jQuery UI -->
+    <script src="{{ asset('asset/js/plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+
+    <!-- Jvectormap -->
+    <script src="{{ asset('asset/js/plugins/jvectormap/jquery-jvectormap-2.0.2.min.js')}}"></script>
+    <script src="{{ asset('asset/js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js')}}"></script>
+
+    <!-- EayPIE -->
+    <script src="{{ asset('asset/js/plugins/easypiechart/jquery.easypiechart.js')}}"></script>
+
+    <!-- Sparkline -->
+    <script src="js/plugins/sparkline/jquery.sparkline.min.js')}}"></script>
+
+    <!-- Sparkline demo data  -->
+    <script src="{{ asset('asset/js/demo/sparkline-demo.js')}}"></script>
+
+     <!-- Data Table  -->
+    <script src="{{asset('asset/js/plugins/dataTables/datatables.min.js')}}"></script>
+    <script src="{{asset('asset/js/plugins/dataTables/dataTables.bootstrap4.min.js')}}"></script>
+
+        <!-- Sweet alert -->
+    <script src="{{ asset('asset/sweetalert2/sweetalert2.min.js') }}"></script>
+    <!-- datepicker -->
+    <script src="{{asset('asset/js/plugins/datapicker/bootstrap-datepicker.js')}}"></script>
 
 </body>
 </html>

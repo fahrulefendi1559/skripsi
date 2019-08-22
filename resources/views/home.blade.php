@@ -43,6 +43,16 @@
       header("Location: evaluasi/home");
       exit;
     ?> 
+<?php elseif (Auth::user()->roles_id == 8): ?>
+    <?php
+      header("Location: sekretaris/home");
+      exit;
+    ?> 
+<?php elseif (Auth::user()->roles_id == 9): ?>
+    <?php
+      header("Location: bendahara/home");
+      exit;
+    ?> 
 <?php elseif (Auth::user()->roles_id == 666): ?>
     <?php
       header("Location: dpl/home");

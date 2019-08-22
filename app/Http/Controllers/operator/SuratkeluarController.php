@@ -96,6 +96,7 @@ class SuratkeluarController extends Controller
             'prihal'        => $request->input('prihal'),
             'lampiran'      => $request->input('lampiran'),
             'tglsurat'      => $request->input('tglsurat'),
+            'namafile'      => $this->uploadFile($request)
         ]);
 
         // data dari email
@@ -114,21 +115,21 @@ class SuratkeluarController extends Controller
         return redirect('operator/suratkeluar')->with('sukses','Data Berhasil Diinput');
     }
 
-    // create file menyimpan data dan dokumen 
-     public function createfile(Request $request){
-        $this->validate($request, [
-            'namafile'   => 'required | max:3000'
-        ]);
-        DB::table('surat_keluar')->update([
-            'status'        => '1'
-        ]);
-        // $file= Filekeluar::where('id', $id)->pluck('namafile')->all();
-        $file= DB::table('filekeluar')->insert([
-            'id_suratkeluar'=> $request->input('id_keluar'),
-            'namafile' => $this->uploadFile($request)
-        ]);
-        return redirect('operator/suratkeluar')->with('sukses','Data Berhasil Diinput');    
-    }
+    // // create file menyimpan data dan dokumen 
+    //  public function createfile(Request $request){
+    //     $this->validate($request, [
+    //         'namafile'   => 'required | max:3000'
+    //     ]);
+    //     DB::table('surat_keluar')->update([
+    //         'status'        => '1'
+    //     ]);
+    //     // $file= Filekeluar::where('id', $id)->pluck('namafile')->all();
+    //     $file= DB::table('filekeluar')->insert([
+    //         'id_suratkeluar'=> $request->input('id_keluar'),
+    //         'namafile' => $this->uploadFile($request)
+    //     ]);
+    //     return redirect('operator/suratkeluar')->with('sukses','Data Berhasil Diinput');    
+    // }
 
     protected function uploadFile($request){
         if ($request->hasFile('namafile')) {
@@ -189,7 +190,7 @@ class SuratkeluarController extends Controller
     // delete data dan berkas yang disimpan 
     public function delete($id){
     	//delete file dalam path
-        $file = Filekeluar::where('id_suratkeluar', $id)->pluck('namafile')->all();
+        $file = Suratkeluar::where('id', $id)->pluck('namafile')->all();
         Storage::delete($file);
 
         //delete data pada database
@@ -199,7 +200,7 @@ class SuratkeluarController extends Controller
     
     // view pdf yang disimpan di path surat keluar 
     public function viewpdf($id){
-        $file = Filekeluar::where('id_suratkeluar', $id)->pluck('namafile')->first();
+        $file = Suratkeluar::where('id', $id)->pluck('namafile')->first();
         // $filename = $request->namafile;
         $path = storage_path('app/'.$file);
 
@@ -267,6 +268,7 @@ class SuratkeluarController extends Controller
             'prihal'        => $request->input('prihal'),
             'lampiran'      => $request->input('lampiran'),
             'tglsurat'      => $request->input('tglsurat'),
+            'namafile'      => $this->uploadFile_ex($request)
         ]);
 
         // data dari email
@@ -282,13 +284,13 @@ class SuratkeluarController extends Controller
             $mail->from('bpkknunila818@gmail.com','Surat Keluar External');
         });
 
-        return redirect('operator/suratkeluar')->with('sukses','Data Berhasil Diinput');
+        return redirect('operator/suratkeluar_ex')->with('sukses','Data Berhasil Diinput');
     }
 
      // delete data dan berkas yang disimpan 
      public function delete_ex($id){
     	//delete file dalam path
-        $file = Filekeluarex::where('id_suratkeluar_ex', $id)->pluck('namafile')->all();
+        $file = Suratkeluarex::where('id', $id)->pluck('namafile')->all();
         Storage::delete($file);
         
         //delete data pada database
@@ -321,7 +323,7 @@ class SuratkeluarController extends Controller
 
     // view pdf yang disimpan di path surat keluar 
     public function viewpdf_ex($id){
-        $file = Filekeluarex::where('id_suratkeluar_ex', $id)->pluck('namafile')->first();
+        $file = Suratkeluarex::where('id', $id)->pluck('namafile')->first();
         // $filename = $request->namafile;
         $path = storage_path('app/'.$file);
 
@@ -329,21 +331,23 @@ class SuratkeluarController extends Controller
         
     }
 
-    // create file dan disimpan kedalam
-    public function createfile_ex(Request $request){
-        $this->validate($request, [
-            'namafile'   => 'required | max:3000'
-        ]);
-        DB::table('surat_keluar_ex')->update([
-            'status'        => '1'
-        ]);
+    // // create file dan disimpan kedalam
+    // public function createfile_ex(Request $request){
+    //     $this->validate($request, [
+    //         'namafile'   => 'required | max:3000'
+    //     ]);
+    //     DB::table('surat_keluar_ex')->update([
+    //         'status'        => '1'
+    //     ]);
         
-        $file= DB::table('filekeluar_ex')->insert([
-            'id_suratkeluar_ex'=> $request->input('id_keluar_ex'),
-            'namafile' => $this->uploadFile_ex($request)
-        ]);
-        return redirect('operator/suratkeluar_ex')->with('sukses','Data Berhasil Diinput');    
-    }
+    //     $file= DB::table('filekeluar_ex')->insert([
+    //         'id_suratkeluar_ex'=> $request->input('id_keluar_ex'),
+    //         'namafile' => $this->uploadFile_ex($request)
+    //     ]);
+    //     return redirect('operator/suratkeluar_ex')->with('sukses','Data Berhasil Diinput');    
+    // }
+
+
     // untuk memberi nama file yang disimpan dan meletakkan direktori penyimpanan
     protected function uploadFile_ex($request){
         if ($request->hasFile('namafile')) {

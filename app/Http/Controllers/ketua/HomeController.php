@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\User;
 use App\suratmasuk;
+use App\suratmasuk_ex;
 use App\Suratkeluar;
 use App\Sifat;
 use App\Disposisi;
@@ -63,6 +64,7 @@ class HomeController extends Controller
 
  
         $datasuratmasuk = suratmasuk::where('status', "1")->get();
+        $datasuratmasukex =  suratmasuk_ex::where('status', "1")->get();
 
     	return view('ketua.home')->with([
 
@@ -76,10 +78,39 @@ class HomeController extends Controller
             'countkeluarex' => $countkeluarex,
             'counttugas'    => $counttugas,
             'prihal'        => $prihal,
-            'countsurat_ex' => $countsurat_ex
+            'countsurat_ex' => $countsurat_ex,
+            'datasuratmasukex'=> $datasuratmasukex
     
         ]);
     }
+
+    // view pdf surat masuk internal
+    public function viewpdf($id)
+    {
+        $file = suratmasuk::where('id', $id)->pluck('namafile')->first();
+        // $filename = $request->namafile;
+        $path = storage_path('app/'.$file);
+
+        return response()->file($path);
+    }
+
+    // view pdf surat masuk internal
+    public function viewpdfex($id)
+    {
+        $file = suratmasuk_ex::where('id', $id)->pluck('namafile')->first();
+        // $filename = $request->namafile;
+        $path = storage_path('app/'.$file);
+
+        return response()->file($path);
+    }
+
+    public function dispo_ex($id){
+        $sifatsurat = Sifat::all();
+        $masuk      = suratmasuk_ex:: where('id',$id)->first();
+        $roles      = Role::all();  
+        return view('ketua.disposisiex', compact('sifatsurat', 'id','masuk','roles'));
+    }
+
 
     public function dispo($id){
         $sifatsurat = Sifat::all();
@@ -88,6 +119,7 @@ class HomeController extends Controller
         return view('ketua.disposisi', compact('sifatsurat', 'id','masuk','roles'));
     }
 
+    // send disposisi surat masuk internal
     public function send(Request $request){
         
         DB::table('surat_masuk')->where('id', $request->input('id_suratmasuk'))->update([
@@ -125,4 +157,41 @@ class HomeController extends Controller
         return redirect('ketua/home')->with('sukses','Surat Berhasil Didisposisikan');
     }
     
+    // send disposisi surat masuk external
+    public function sendex(Request $request){
+        
+        DB::table('surat_masuk_ex')->where('id', $request->input('id_suratmasuk'))->update([
+            'status'        => '0'
+        ]);
+
+        $a  = DB::table('disposisi_ex')->insert([
+            'id_suratmasuk'=> $request->input('id_suratmasuk'),
+            'id_sifat'     => $request->input('id_sifat'),
+            'id_role'      => $request->input('id_role'),
+            'tgldispo'     => $request->input('tgldispo'),
+            'catatan'      => $request->input('catatan')
+          ]);
+
+          
+        // $b= User::all();
+
+        // if($b->roles_id = 2)
+        // {
+        //     $email=DB::table('users')->select('email')->get();
+
+        //     $data= array(
+        //         'email_body' => "Anda Memiliki File Surat Masuk Terbaru"    
+        //     );
+
+        //     // mengirim email ke alamat email kkn
+        //     Mail::send('ketua/emailtemplate', $data, function($mail) use ($email){
+        //         $mail->to($email, 'no-reply')
+        //         ->subject('Surat Masuk Internal');
+        //         $mail->from('fahrulefendi25@gmail.com','Surat Masuk Internal Baru');
+        //     });
+        //  }
+
+
+        return redirect('ketua/home')->with('sukses','Surat Berhasil Didisposisikan');
+    }
 }

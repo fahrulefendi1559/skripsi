@@ -61,19 +61,18 @@ class UsersController extends Controller
         return view('admin.edituser', compact('edituser','id'));
     }
 
+    public function editstruktur($id){
+        $editstruktur= User::where('id',$id)->first();
+        return view('admin.editstruktur', compact('editstruktur','id'));
+    }
+
     public function update(Request $request,$id){
 
         $this->validate($request, [
             'name'           => 'required',
-            'username'       => 'required',
-            'email'          => 'required',
+            'username'       => 'required | unique:users',
+            'email'          => 'required | unique:users',
         ]);
-
-        // Auth::User()->update([
-        //     'name'      => $request->name,
-        //     'username'  => $request->username,
-        //     'email'     => $request->email
-        // ]);
 
         $user = User:: where('id', $id)->first();
         $user->name     = $request->name;
@@ -82,6 +81,23 @@ class UsersController extends Controller
         $user->update();
 
         return redirect('admin/registerusers')->with('update','Data Berhasil Diupdate');
+
+    }
+
+    public function updatestruktur(Request $request,$id){
+
+        $this->validate($request, [
+            'name'           => 'required | unique:users',
+            'username'       => 'required | unique:users'
+        ]);
+
+        $user = User:: where('id', $id)->first();
+        $user->name     = $request->name;
+        $user->username = $request->username;
+        $user->password = bcrypt($request->username);
+        $user->update();
+
+        return redirect('admin/strukturorganisasi')->with('update','Data Berhasil Diupdate');
 
     }
 

@@ -19,6 +19,12 @@
 
 <div class="container">
 <div class="row row-centered">
+        @if ($errors->has('username'))
+            <div class="alert alert-danger col-lg-12">
+                <strong>{{ $errors->first('username') }}</strong>
+            </div>
+        @endif
+
     <div class="col-lg-12 col-centered ">
         <div class="ibox ">
             <div class="ibox-title">
@@ -31,21 +37,19 @@
             </div>
 
             <div class="ibox-content">
-                <form method="post" action="{{route('admin.editketua')}}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('poststruktur', ['id' => $editstruktur->id]) }}" enctype="multipart/form-data">
                     {{csrf_field()}}
-
-                    <input type="hidden" name="id" value="{{ $struktur->id_detail_struktur }}">
 
                     <div class="form-group  row">
                         <label class="col-sm-2 col-form-label">Nama</label>
                         <div class="col-sm-10">
-                        <input type="text" class="form-control" name="nama" value="{{$struktur->nama}}" required=""></div>
+                        <input type="text" class="form-control" name="name" value="{{$editstruktur->name}}" required=""></div>
                     </div>
 
                     <div class="form-group  row">
                         <label class="col-sm-2 col-form-label">NIP</label>
                         <div class="col-sm-10">
-                        <input type="text" class="form-control" name="nip" value="{{$struktur->nip}}" required=""></div>
+                        <input type="text" class="form-control" name="username" value="{{$editstruktur->username}}" required=""></div>
                     </div>
 
                     <div class="col-sm-4 col-sm-offset-2">

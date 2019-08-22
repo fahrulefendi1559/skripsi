@@ -97,10 +97,11 @@
             <strong>Penting!</strong> Anda Memiliki Surat yang Harus Didisposisikan
         </div>
 
+        <!-- disposisi surat masuk internal -->
         <div class="col-lg-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h5>Disposisi Surat Masuk</h5>
+                    <h5>Disposisi Surat Masuk Internal</h5>
                     <div class="ibox-tools">
 
                         <a class="close-link">
@@ -127,15 +128,11 @@
                                     <th>
                                         <center>Prihal </center>
                                     </th>
-                                    <th>
-                                        <center>Tgl Surat </center>
-                                    </th>
-                                    <th>
-                                        <center>Tgl Terima </center>
-                                    </th>
+                                   
                                     <th width="10%">
                                         <center> Aksi</center>
                                     </th>
+                                 
                                 </tr>
                             </thead>
                             <tbody>
@@ -153,17 +150,84 @@
                                     <td>
                                         <center>{{ $masuk->prihal }}</center>
                                     </td>
-                                    <td>
-                                        <center>{{ $masuk->tglsurat }}</center>
-                                    </td>
-                                    <td>
-                                        <center>{{ $masuk->tglterima }}</center>
-                                    </td>
+                                   
                                     <td>
                                         <center>
+                                            <a href="{{ url('ketua/suratmasuk/viewpdf/'. $masuk->id)}}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
 
                                             <a href="{{ url('ketua/suratmasuk/disposisi/'. $masuk->id) }}"
-                                                class="btn btn-simple btn-info btn-xs "><i class="fa fa-send"> Disposisi</i></a>
+                                                class="btn btn-simple btn-info btn-xs "><i class="fa fa-send"></i></a>
+                                        </center>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- disposisi surat masuk external -->
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>Disposisi Surat Masuk External</h5>
+                    <div class="ibox-tools">
+
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="ibox-content">
+                    <!-- Table users -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <center>Nomor Surat </center>
+                                    </th>
+                                    <th>
+                                        <center>Pengirim </center>
+                                    </th>
+                                    <th>
+                                        <center>Penerima </center>
+                                    </th>
+                                    <th>
+                                        <center>Prihal </center>
+                                    </th>
+                                   
+                                    <th width="10%">
+                                        <center> Aksi</center>
+                                    </th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($datasuratmasukex as $masuk)
+                                <tr>
+                                    <td>
+                                        <center>{{ $masuk->nomorsurat }}</center>
+                                    </td>
+                                    <td>
+                                        <center>{{ $masuk->pengirim }}</center>
+                                    </td>
+                                    <td>
+                                        <center>{{ $masuk->penerima }}</center>
+                                    </td>
+                                    <td>
+                                        <center>{{ $masuk->prihal }}</center>
+                                    </td>
+                                   
+                                    <td>
+                                        <center>
+                                            <a href="{{ url('ketua/suratmasuk_ex/viewpdf/'. $masuk->id)}}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
+
+                                            <a href="{{ url('ketua/suratmasuk_ex/disposisi/'. $masuk->id) }}"
+                                                class="btn btn-simple btn-info btn-xs "><i class="fa fa-send"></i></a>
                                         </center>
                                     </td>
                                 </tr>

@@ -91,7 +91,7 @@
                                                         <th><center>Pengirim</center></th>
                                                         <th><center>Penerima</center></th>
                                                         <th><center>Tgl Surat</center></th>
-                                                        <th ><center>Aksi</center></th>
+                                                        <th width="14%"><center>Aksi</center></th>
                                                     </tr>
                                                     </thead>
                                                 <tbody>
@@ -105,20 +105,12 @@
                                                         <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                                             {{csrf_field()}}
                                                             
-                                                            <a href="{{ route('opr.createsuratpdf_ex', [ 'id' => $keluar_ex->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
-
-                                                            @if($keluar_ex->status == "1")
                                                             <a href="{{ route('opr.viewpdf_ex', [ 'id' => $keluar_ex->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-book"></i></a>
-                                                            @endif
                 
                                                             <a href="{{url('operator/suratkeluar_ex/edit/'. $keluar_ex->id) }}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
                                                             <a href="{{ url('operator/suratkeluar_ex/delete/'. $keluar_ex->id) }}" class="btn btn-simple btn-danger btn-xs " onclick="return confirm('Anda Yakin Akan Menghapus Data Ini ?')" ><i class="fa fa-trash"></i></a>
 
-                                                            @if($keluar_ex ->status != "1")
-                                                            <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal4"><i class="fa fa-sign-out"></i>
-                                                            </button>
-                                                            @endif
                                                         </form>
                                                     </center></td>
                                                 </tr>

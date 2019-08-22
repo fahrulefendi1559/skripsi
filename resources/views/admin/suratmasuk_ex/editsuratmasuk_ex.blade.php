@@ -70,17 +70,17 @@
                         </div>
 
                         <div class="form-group  row">
-                			<label class="col-sm-2 col-form-label">Sifat Surat</label>
+                			<label class="col-sm-2 col-form-label">Tanggal Surat</label>
 							<div class="col-sm-10">
-							     <input type="text" class="form-control datepicker1" name="tglsurat" value="{{$suratmasuk->tglsurat}}" autofocus required>
+							     <input type="text" class="form-control datepicker" name="tglsurat" value="{{$suratmasuk->tglsurat}}" autofocus required>
                                     <span class="help-block with-errors"></span>
                              </div>
                         </div>
 
                         <div class="form-group  row">
-                			<label class="col-sm-2 col-form-label">Sifat Surat</label>
+                			<label class="col-sm-2 col-form-label">Tanggal Terima</label>
 							<div class="col-sm-10">
-							     <input type="text" class="form-control datepicker1" name="tglsurat" value="{{$suratmasuk->tglsurat}}" autofocus required>
+							     <input type="text" class="form-control datepicker1" name="tglsurat" value="{{$suratmasuk->tglterima}}" autofocus required>
                                     <span class="help-block with-errors"></span>
                              </div>
                         </div>
@@ -97,6 +97,14 @@
     </div>
 </div>
 <script type="text/javascript">
+
+$(function(){
+  $(".datepicker").datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true,
+      todayHighlight: true,
+  });
+ });
 
  //datepicker tgl surat
  $(function(){

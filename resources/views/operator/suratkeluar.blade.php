@@ -102,7 +102,7 @@
                                                         <th><center>Pengirim</center></th>
                                                         <th><center>Penerima</center></th>
                                                         <th><center>Tgl Surat</center></th>
-                                                        <th ><center>Aksi</center></th>
+                                                        <th width="14%"><center>Aksi</center></th>
                                                     </tr>
                                                     </thead>
                                                 <tbody>
@@ -117,20 +117,12 @@
                                                         <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                                             {{csrf_field()}}
                                                             
-                                                            <a href="{{ route('opr.keluarfilepdf', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
-
-                                                            @if($keluar->status == "1")
                                                             <a href="{{ route('opr.viewpdf', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-book"></i></a>
-                                                            @endif
                 
                                                             <a href="{{url('operator/suratkeluar/edit/'. $keluar->id) }}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
                                                             <a href="{{ url('operator/suratkeluar/delete/'. $keluar->id) }}" class="btn btn-simple btn-danger btn-xs " onclick="return confirm('Anda Yakin Akan Menghapus Data Ini ?')" ><i class="fa fa-trash"></i></a>
 
-                                                            @if($keluar->status != "1")
-                                                            <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-out"></i>
-                                                            </button>
-                                                            @endif
                                                         </form>
                                                     </center></td>
                                                 </tr>
@@ -138,60 +130,6 @@
                                                 </tbody>
                                                 </table>
                                             </div>
-
-                                            <!-- modal upload file -->
-                                            @foreach($data_surat_keluar as $keluar)
-                                            <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-                                                <div class="modal-dialog ">
-                                                    <div class="modal-content animated flipInY">
-
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal">
-                                                                <span aria-hidden="true">&times;</span>
-                                                                <span class="sr-only">Close</span>
-                                                            </button>
-                                                            <h4 class="modal-title"></h4>
-                                                                <small class="font-bold">Sistem Informasi Digitalisasi Arsip Dokumen.</small>
-                                                        </div>
-
-                                                        <div class="modal-body">
-                                                            @if ($errors->any())
-                                                                <div class="alert alert-danger">
-                                                                    <ul>
-                                                                        @foreach ($errors-> all() as $error)
-                                                                            <li>{{$error}}</li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                </div>
-                                                            @endif
-
-                                                            @if($cek_keluar != 0)
-                                                                <form role="form" method="POST" action="{{route('opr.createfilekeluar')}}" enctype="multipart/form-data">
-                                                                    {{csrf_field()}}  {{method_field('POST')}}
-                                                                    <input type="hidden" id="id_keluar" name="id_keluar" value="{{$keluar->id}}" ></input>
-                                                                        <div class="alert alert-success ">
-                                                                            <strong>Penting!</strong> File PDF yang telah di scan
-                                                                        </div>
-
-                                                                        <div class="form-group">
-                                                                            <label>File</label> 
-                                                                                <input type="file" name="namafile" autofocus required>
-                                                                                <span class="help-block with-errors"></span>
-                                                                        </div>
-                                                        
-
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary" name="submit">Save changes</button>
-                                                                </div>
-                                                                </form>
-                                                            @endif
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                            <!-- akhir dari modal upload file -->
                                         </div>
                                     </div>
                                 </div>
@@ -275,7 +213,13 @@
                                                     <label>Tgl Surat</label> 
                                                     <input type="text"  class="form-control datepicker1" name="tglsurat" autofocus required>
                                                             <span class="help-block with-errors"></span>
-                                                </div>                                      
+                                                </div>   
+
+                                                <div class="form-group">
+                                                    <label>File</label> 
+                                                    <input type="file" name="namafile" autofocus required>
+                                                    <span class="help-block with-errors"></span>
+                                                </div>                                   
                                         
 
                                                 <div class="modal-footer">

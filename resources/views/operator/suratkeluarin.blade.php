@@ -60,20 +60,7 @@
 
         <!-- AWAL DARI UKURAN KANVAS -->
         <div class="col-lg-12">
-            <div class="row">
-                <div class="col-sm-3 m-b-xs">
-                    <form action="suratkeluar/cari" method="GET">
-                        <!-- get data periode surat -->
-                        <select class="form-control-sm form-control input-s-sm inline" name="cari">
-                            <option disabled selected>Pilih Periode Surat</option>
-                                @foreach ($suratperiode as $periode)      
-                                    <option value="{{ $periode->id_periode }}" autofocus required>Periode {{ $periode->periode}} {{ $periode->tahun }}</option>   
-                                @endforeach
-                        </select>
-                </div>
-                <button type="submit" class="btn btn-sm btn-primary">Go!
-                </form>
-            </div>
+            
             <!-- AWAL CONTAINER TAB -->
             <div class="tabs-container">
                 <ul class="nav nav-tabs" role="tablist">
@@ -102,7 +89,7 @@
                                                         <th><center>Pengirim</center></th>
                                                         <th><center>Penerima</center></th>
                                                         <th><center>Tgl Surat</center></th>
-                                                        <th ><center>Aksi</center></th>
+                                                        <th width="14%"><center>Aksi</center></th>
                                                     </tr>
                                                     </thead>
                                                 <tbody>
@@ -117,20 +104,12 @@
                                                         <form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                                             {{csrf_field()}}
                                                             
-                                                            <a href="{{ route('opr.keluarfilepdf', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
-
-                                                            @if($keluar->status == "1")
                                                             <a href="{{ route('opr.viewpdf', [ 'id' => $keluar->id]) }}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-book"></i></a>
-                                                            @endif
                 
                                                             <a href="{{url('operator/suratkeluar/edit/'. $keluar->id) }}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
 
                                                             <a href="{{ url('operator/suratkeluar/delete/'. $keluar->id) }}" class="btn btn-simple btn-danger btn-xs " onclick="return confirm('Anda Yakin Akan Menghapus Data Ini ?')" ><i class="fa fa-trash"></i></a>
 
-                                                            @if($keluar->status != "1")
-                                                            <button type="button" class="edit-modal btn btn-simple btn-warning btn-xs" data-toggle="modal" data-target="#myModal"><i class="fa fa-sign-out"></i>
-                                                            </button>
-                                                            @endif
                                                         </form>
                                                     </center></td>
                                                 </tr>

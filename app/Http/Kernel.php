@@ -68,6 +68,8 @@ class Kernel extends HttpKernel
         'evaluasi' => \App\Http\Middleware\UserEvaluasi::class,
         'dpl' => \App\Http\Middleware\UserDpl::class,
         'kdpl' => \App\Http\Middleware\UserKdpl::class,
+        'sekretaris' => \App\Http\Middleware\UserSekretaris::class,
+        'bendahara' => \App\Http\Middleware\UserBendahara::class,
 
     ];
 }

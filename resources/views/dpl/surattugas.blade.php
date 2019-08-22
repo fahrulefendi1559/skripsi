@@ -53,11 +53,12 @@
 			                    <thead>
 			                    <tr>
 			                        <th><center>Nomor Surat </center></th>
-			                        <th><center>Pengirim </center></th>
-			                        <th><center>Penerima </center></th>
 			                        <th><center>Prihal </center></th>
 			                        <th><center>Tgl Surat </center></th>
-			                        <th><center>Tgl Terima </center></th>
+                                    <th><center>Jenis Tugas</center></th>
+			                        <th><center>Kabupaten </center></th>
+			                        <th><center>Kecamatan </center></th>
+			                        <th><center>Desa </center></th>
 			                        <th width="14%"><center> Aksi</center></th>
 			                    </tr>
 			                    </thead>
@@ -67,6 +68,7 @@
 		                        <td><center>{{$tugas->nomorsurat}}</center></td>
 		                        <td><center>{{$tugas->prihal}}</center></td>
 		                        <td><center>{{$tugas->tglsurat}}</center></td>
+                                <td><center>{{$tugas->nama_tugas}}</center></td>
 		                        <td><center>{{$tugas->kabupaten}}</center></td>
 		                        <td><center>{{$tugas->kecamatan}}</center></td>
 		                        <td><center>{{$tugas->desa}}</center></td>

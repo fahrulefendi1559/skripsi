@@ -99,12 +99,12 @@ class SuratMasukController extends Controller
     }
 
     public function update(Request $request,$id){
-        if ($request->file('namafile')==null) {
-            $file="";
-        }else{
-            $filee= suratmasuk::where('id', $id)->pluck('namafile')->all();
-            Storage::delete($filee);
-        }
+        // if ($request->file('namafile')==null) {
+        //     $file="";
+        // }else{
+        //     $filee= suratmasuk::where('id', $id)->pluck('namafile')->all();
+        //     Storage::delete($filee);
+        // }
 
         $masuk = suratmasuk:: where('id', $id)->first();
         $masuk->nomorsurat	 = $request->nomorsurat;
@@ -206,7 +206,7 @@ class SuratMasukController extends Controller
             'prihal'        => $request->input('prihal'),
             'tglsurat'      => $request->input('tglsurat'),
             'tglterima'     => $request->input('tglterima'),
-            'namafile'      => $this->uploadFile_ex($request)
+            // 'namafile'      => $this->uploadFile_ex($request)
         ]);
 
         // data dari email

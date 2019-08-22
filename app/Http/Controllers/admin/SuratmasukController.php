@@ -70,17 +70,17 @@ class SuratmasukController extends Controller
         ]);
 
         // data dari email
-        $email="kkn@kpa.unila.ac.id";
-        $data= array(
-            'email_body' => "Anda Memiliki File Surat Masuk Terbaru"    
-        );
+        // $email="kkn@kpa.unila.ac.id";
+        // $data= array(
+        //     'email_body' => "Anda Memiliki File Surat Masuk Terbaru"    
+        // );
 
-        // mengirim email ke alamat email kkn
-        Mail::send('admin/email_template', $data, function($mail) use ($email){
-            $mail->to($email, 'no-reply')
-            ->subject('Surat Masuk');
-            $mail->from('bpkknunila818@gmail.com','Surat Masuk Baru');
-        });
+        // // mengirim email ke alamat email kkn
+        // Mail::send('admin/email_template', $data, function($mail) use ($email){
+        //     $mail->to($email, 'no-reply')
+        //     ->subject('Surat Masuk');
+        //     $mail->from('bpkknunila818@gmail.com','Surat Masuk Baru');
+        // });
 
         
         return redirect('admin/suratmasuk')->with('sukses','Data Berhasil Diinput');
@@ -218,18 +218,18 @@ class SuratmasukController extends Controller
             'namafile'      => $this->uploadFile_ex($request)
         ]);
 
-        // data dari email
-        $email="kkn@kpa.unila.ac.id";
-        $data= array(
-            'email_body' => "Anda Memiliki File Surat Masuk Terbaru"    
-        );
+        // // data dari email
+        // $email="kkn@kpa.unila.ac.id";
+        // $data= array(
+        //     'email_body' => "Anda Memiliki File Surat Masuk Terbaru"    
+        // );
 
-        // mengirim email ke alamat email kkn
-        Mail::send('admin/email_template', $data, function($mail) use ($email){
-            $mail->to($email, 'no-reply')
-            ->subject('Surat Masuk');
-            $mail->from('bpkknunila818@gmail.com','Surat Masuk Baru');
-        });
+        // // mengirim email ke alamat email kkn
+        // Mail::send('admin/email_template', $data, function($mail) use ($email){
+        //     $mail->to($email, 'no-reply')
+        //     ->subject('Surat Masuk');
+        //     $mail->from('bpkknunila818@gmail.com','Surat Masuk Baru');
+        // });
 
         
         return redirect('admin/suratmasuk_ex')->with('sukses','Data Berhasil Diinput');

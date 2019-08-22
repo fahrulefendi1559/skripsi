@@ -42,6 +42,7 @@
                     
                 <div class="ibox-content">    	
                         <!-- Table data suratmasuk-->
+                        <label class="btn btn-simple btn-info btn-xs">Surat Masuk Internal</label> <br><br>   
 	                    <div class="table-responsive">
 		                    <table class="table table-striped table-bordered table-hover dataTables-example" >
 			                    <thead>
@@ -70,8 +71,9 @@
                                     
 		                        	<form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
                                         {{csrf_field()}}
+                                        <a href="{{ url('ketua/disposisi/suratmasuk/viewpdf/'. $dispo->id)}}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
 
-                                        <a href="{{url ('ketua/disposisi/edit/'. $dispo->id)}}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a>
+                                        <!-- <a href="{{url ('ketua/disposisi/edit/'. $dispo->id)}}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a> -->
                                     </form>
                                 </center></td>
 		                    </tr>
@@ -79,11 +81,54 @@
 							</tbody>
 		                    </table>
                         </div>							
-                    </div>
+                </div>
+
+                <div class="ibox-content">    	
+                    <label class="btn btn-simple btn-info btn-xs">Surat Masuk External</label> <br><br>   
+                        <!-- Table data suratmasuk-->
+	                    <div class="table-responsive">
+		                    <table class="table table-striped table-bordered table-hover dataTables-example" >
+			                    <thead>
+			                    <tr>
+			                        <th><center>Nomor Surat </center></th>
+			                        <th><center>Pengirim </center></th>
+			                        <th><center>Penerima </center></th>
+			                        <th><center>Prihal </center></th>
+                                    <th><center>Sifat Surat </center></th>
+			                        <th><center>Tgl Disposisi</center></th>
+			                        <th><center>Catatan</center></th>
+			                        <th width="14%"><center> Aksi</center></th>
+			                    </tr>
+			                    </thead>
+		                    <tbody>
+		                    @foreach($disposisiex as $dispo)
+		                    <tr >
+		                        <td><center>{{$dispo->nomorsurat}}</center></td>
+		                        <td><center>{{$dispo->pengirim}}</center></td>
+		                        <td><center>{{$dispo->namarole}}</center></td>
+		                        <td><center>{{$dispo->prihal}}</center></td>
+		                        <td><center>{{$dispo->sifat}}</center></td>
+		                        <td><center>{{$dispo->tgldispo}}</center></td>
+                                <td><center>{{$dispo->catatan}}</center></td>
+                                <td><center>
+                                    
+		                        	<form class="form-horizontal" action="" method="POST" enctype="multipart/form-data">
+                                        {{csrf_field()}}
+                                        <a href="{{ url('ketua/disposisi/suratmasuk_ex/viewpdf/'. $dispo->id)}}" class="btn btn-simple btn-info btn-xs " target="blank"><i class="fa fa-file-pdf-o"></i></a>
+
+                                        <!-- <a href="{{url ('ketua/disposisi_ex/edit/'. $dispo->id)}}" class="btn btn-simple btn-primary btn-xs " ><i class="fa fa-edit"></i></a> -->
+                                    </form>
+                                </center></td>
+		                    </tr>
+                            @endforeach
+							</tbody>
+		                    </table>
+                        </div>							
                 </div>
             </div>
-            </div>
         </div>
+    </div>
+</div>
 
 <script type="text/javascript">
 

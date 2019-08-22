@@ -17,20 +17,7 @@
 </div>
 
 <div class="wrapper wrapper-content animated fadeIn">
-    <div class="row">
-                <div class="col-sm-3 m-b-xs">
-                    <form action="suratkeluar/cari" method="GET">
-                        <!-- get data periode surat -->
-                        <select class="form-control-sm form-control input-s-sm inline" name="cari">
-                            <option disabled selected>Pilih Periode Surat</option>
-                                @foreach ($suratperiode as $periode)      
-                                    <option value="{{ $periode->id_periode }}" autofocus required>Periode {{ $periode->periode}} {{ $periode->tahun }}</option>   
-                                @endforeach
-                        </select>
-                </div>
-                <button type="submit" class="btn btn-sm btn-primary">Go!
-                </form>
-            </div>
+ 
     <div class="row">
                 <div class="col-lg-12">
                     <div class="tabs-container">

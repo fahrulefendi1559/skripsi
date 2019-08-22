@@ -46,7 +46,7 @@
                     </div>
 		        </div>
                 <div class="ibox-content">
-                	<form method="post" action="{{ route('opr.update', ['id' => $suratmasuk->id]) }}" enctype="multipart/form-data">
+                	<form method="post" action="{{ route('opr.updatemasuk', ['id' => $suratmasuk->id]) }}" enctype="multipart/form-data">
                 		{{csrf_field()}}
 
                 		<div class="form-group  row">
@@ -76,21 +76,13 @@
                         <div class="form-group  row">
                 			<label class="col-sm-2 col-form-label">Tanggal Surat</label>
 							<div class="col-sm-10">
-							<input type="text" class="form-control" name="tglsurat" value="{{$suratmasuk->tglsurat}}"></div>
+							<input type="text" class="form-control datepicker" name="tglsurat" value="{{$suratmasuk->tglsurat}}"></div>
                         </div>
 
                         <div class="form-group  row">
-                			<label class="col-sm-2 col-form-label">Nama File Lama </label>
+                			<label class="col-sm-2 col-form-label">Tanggal Masuk</label>
 							<div class="col-sm-10">
-							<input type="text" disabled="" class="form-control"  name="old_file" value="{{$suratmasuk->namafile}}"></div>
-                        </div>
-
-                        <div class="form-group  row">
-                			<label class="col-sm-2 col-form-label">File Baru</label>
-							<div class="col-sm-10">
-							     <input type="file" class="form-control" name="namafile" autofocus required>
-                                    <span class="help-block with-errors"></span>
-                            </div>
+							<input type="text" class="form-control datepicker1" name="tglsurat" value="{{$suratmasuk->tglterima}}"></div>
                         </div>
 
 
@@ -105,5 +97,25 @@
     </div>
 </div>
 
+<script type="text/javascript">
+
+$(function(){
+  $(".datepicker").datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true,
+      todayHighlight: true,
+  });
+ });
+
+
+ $(function(){
+  $(".datepicker1").datepicker({
+      format: 'yyyy-mm-dd',
+      autoclose: true,
+      todayHighlight: true,
+  });
+ });
+
+</script>
 
 @endsection
